@@ -1,24 +1,36 @@
-import { useRef } from "react";
 import "./App.css";
 import Notes from "./components/notes";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useNotes } from "./hooks/useNotes";
-import { useState } from "react";
-import Modal from "./components/Modal";
 import { Navbar } from "./components/Navbar";
-import { NoteBar } from "./components/noteBar";
+import { PinedNotes } from "./components/PinedNotes";
+import { Home } from "./components/Home";
 
 function App() {
   const { notes, loading, setNotes } = useNotes();
   // const { modal, SetModal } = useState(false);
 
   return (
-    <>
-    <Navbar></Navbar>
-   
-      <Notes notes={notes} setNotes={setNotes} loading={loading}></Notes>
-      {/* Open the modal using document.getElementById('ID').showModal() method */}
-     
-    </>
+    <Router>
+      <div className="bg-gray-100 min-h-screen">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/all"
+            element={
+              <Notes notes={notes} setNotes={setNotes} loading={loading} />
+            }
+          />
+          <Route
+            path="/pinned"
+            element={
+              <PinedNotes notes={notes} setNotes={setNotes} loading={loading} />
+            }
+          />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
