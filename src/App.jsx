@@ -1,10 +1,11 @@
 import "./App.css";
-import Notes from "./components/notes";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useNotes } from "./hooks/useNotes";
 import { Navbar } from "./components/Navbar";
 import { PinedNotes } from "./components/PinedNotes";
 import { Home } from "./components/Home";
+import Notes from "./components/notes";
 
 function App() {
   const { notes, loading, setNotes } = useNotes();

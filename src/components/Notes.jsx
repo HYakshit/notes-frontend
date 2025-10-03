@@ -4,7 +4,7 @@ import * as notesApi from "../services/api";
 import Modal from "./Modal";
 import { NoteBar } from "./noteBar";
 
-const Notes = ({ notes, loading, setNotes }) => {
+const notes = ({ notes, loading, setNotes }) => {
   const [open, setOpenNotes] = useState([]); // null = none open, id = open note
   const [modalMode, setModalMode] = useState("add"); // 'add' or 'edit'
   const [selectedNote, setSelectedNote] = useState(null);
@@ -158,4 +158,4 @@ const Notes = ({ notes, loading, setNotes }) => {
   );
 };
 
-export default Notes;
+export default notes;
