@@ -8,7 +8,7 @@ const notes = ({ notes, loading, setNotes }) => {
   const [open, setOpenNotes] = useState([]); // null = none open, id = open note
   const [modalMode, setModalMode] = useState("add"); // 'add' or 'edit'
   const [selectedNote, setSelectedNote] = useState(null);
-  const modalref = useRef();``
+  const modalref = useRef();
 
   function deleteNote(id) {
     notesApi
@@ -72,11 +72,19 @@ const notes = ({ notes, loading, setNotes }) => {
   }
 
   if (loading) {
-    return <div className="flex justify-center items-center h-screen">Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
   }
 
   if (notes.length === 0) {
-    return <div className="flex justify-center items-center h-screen">No notes available</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        No notes available
+      </div>
+    );
   }
 
   return (

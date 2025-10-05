@@ -5,7 +5,7 @@ import { useNotes } from "./hooks/useNotes";
 import { Navbar } from "./components/Navbar";
 import { PinedNotes } from "./components/PinedNotes";
 import { Home } from "./components/Home";
-import Notes from "./components/notes";
+import Notes from "./components/Notes";
 
 function App() {
   const { notes, loading, setNotes } = useNotes();
