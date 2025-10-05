@@ -1,10 +1,10 @@
 // src/api/notesApi.js
 import axios from "axios";
 
-const API_URL = "/api/notes";
+const API_URL = "https://express-fruit-1gm4.onrender.com";
 
 export const fetchNotes = async () => {
-  const res = await axios.get(API_URL);
+  const res = await axios.get(`${API_URL}/notes`);
   return res.data;
 };
 

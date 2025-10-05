@@ -80,7 +80,7 @@ const notes = ({ notes, loading, setNotes }) => {
     );
   }
 
-  if (notes.length === 0) {
+  if (notes.length === 0 || !notes) {
     return (
       <div className="flex justify-center items-center h-screen">
         No notes available
