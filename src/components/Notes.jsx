@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useRef, useState } from "react";
 import * as notesApi from "../services/api";
+
+import { NoteBar } from "./NoteBar";
 import Modal from "./Modal";
-import { NoteBar } from "./noteBar";
 
 const notes = ({ notes, loading, setNotes }) => {
   const [open, setOpenNotes] = useState([]); // null = none open, id = open note
