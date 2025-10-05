@@ -72,11 +72,11 @@ const notes = ({ notes, loading, setNotes }) => {
   }
 
   if (loading) {
-    return <div className="flex justify-center items-center">Loading...</div>;
+    return <div className="flex justify-center items-center h-screen">Loading...</div>;
   }
 
   if (notes.length === 0) {
-    return <div className="flex justify-center items-center">No notes available</div>;
+    return <div className="flex justify-center items-center h-screen">No notes available</div>;
   }
 
   return (

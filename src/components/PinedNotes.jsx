@@ -24,11 +24,11 @@ export const PinedNotes = ({ notes, loading,setNotes }) => {
   }
   const [open, setOpenNotes] = useState([]); // null = none open, id = open note
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="flex justify-center items-center h-screen">Loading...</div>;
   }
 
   if (notes.length === 0) {
-    return <div>No notes available</div>;
+    return <div className="flex justify-center items-center h-screen">No notes available</div>;
   }
   return (
     <div
