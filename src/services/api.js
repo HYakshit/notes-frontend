@@ -9,7 +9,7 @@ export const fetchNotes = async () => {
 };
 
 export const createNote = async (note) => {
-  const res = await axios.post(`${API_URL}/notes/${id}`, note);
+  const res = await axios.post(`${API_URL}/notes/`, note);
   return res.data;
 };
 
