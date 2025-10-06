@@ -9,16 +9,16 @@ export const fetchNotes = async () => {
 };
 
 export const createNote = async (note) => {
-  const res = await axios.post(API_URL, note);
+  const res = await axios.post(`${API_URL}/notes/${id}`, note);
   return res.data;
 };
 
 export const updateNote = async (id, updatedNote) => {
-  const res = await axios.put(`${API_URL}/${id}`, updatedNote);
+  const res = await axios.put(`${API_URL}/notes/${id}`, updatedNote);
   return res.data;
 };
 
 export const deleteNote = async (id) => {
-  const res = await axios.delete(`${API_URL}/${id}`);
+  const res = await axios.delete(`${API_URL}/notes/${id}`);
   return res.data;
 };
