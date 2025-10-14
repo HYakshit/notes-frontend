@@ -1,4 +1,44 @@
 import React, { useState } from "react";
+import axios from "axios";
+
+
+const API_URL = "https://express-fruit-1gm4.onrender.com/api";
+
+// Forgot password request
+export const forgot = async (email) => {
+  try {
+    const res = await axios.post(`${API_URL}/forgot-password`, { email });
+    return res.data;
+  } catch (error) {
+    console.error(
+      "Forgot password error:",
+      error.response?.data || error.message
+    );
+    throw new Error(
+      error.response?.data?.message || "Failed to send reset link"
+    );
+  }
+};
+
+// Reset password request
+export const reset = async (access_token, refresh_token, new_password) => {
+  try {
+    const res = await axios.post(`${API_URL}/reset-password/`, {
+      access_token,
+      refresh_token,
+      new_password,
+    });
+    return res.data;
+  } catch (error) {
+    console.error(
+      "Reset password error:",
+      error.response?.data || error.message
+    );
+    throw new Error(
+      error.response?.data?.message || "Failed to reset password"
+    );
+  }
+};
 
 export const Login_register = ({ isLogin, setIsLogin }) => {
   const [formData, setFormData] = useState({
@@ -19,11 +59,34 @@ export const Login_register = ({ isLogin, setIsLogin }) => {
 
   const validate = () => {
     const newErrors = {};
-    if (!isLogin && !formData.username.trim()) newErrors.username = "Name is required";
+    const usernameRegex = /^[A-Za-z0-9_]+$/;
+
+    if (!isLogin) {
+      if (!formData.username.trim()) {
+        newErrors.username = "Username is required";
+      } else if (
+        formData.username.length < 3 ||
+        formData.username.length > 15
+      ) {
+        newErrors.username = "Username must be between 3 and 15 characters";
+      } else if (!usernameRegex.test(formData.username)) {
+        newErrors.username = "Username must not contain special characters";
+      }
+    }
+
     if (!formData.email.trim()) newErrors.email = "Email is required";
-    if (!formData.password.trim()) newErrors.password = "Password is required";
+
+    if (!formData.password.trim()) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 6 || formData.password.length > 20) {
+      newErrors.password = "Password must be between 6 and 20 characters";
+    } else if (!isLogin && formData.password === formData.username) {
+      newErrors.password = "Password cannot be the same as username";
+    }
+
     if (!isLogin && formData.password !== formData.confirmPassword)
       newErrors.confirmPassword = "Passwords do not match";
+
     return newErrors;
   };
 
@@ -64,6 +127,25 @@ export const Login_register = ({ isLogin, setIsLogin }) => {
     }, 2000);
   };
 
+  const handleForgotPassword = async () => {
+    if (!formData.email.trim()) {
+      alert("Please enter your email to reset your password.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const res = await forgot(formData.email);
+      alert(
+        res.message || res.detail || "Password reset link sent to your email!"
+      );
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <form className="space-y-5" onSubmit={handleSubmit}>
       {!isLogin && (
@@ -91,7 +173,9 @@ export const Login_register = ({ isLogin, setIsLogin }) => {
           onChange={handleChange}
           className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none transition-all"
         />
-        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+        {errors.email && (
+          <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+        )}
       </div>
 
       <div>
@@ -103,7 +187,18 @@ export const Login_register = ({ isLogin, setIsLogin }) => {
           onChange={handleChange}
           className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none transition-all"
         />
-        {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+        {errors.password && (
+          <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+        )}
+
+        {isLogin && (
+          <p
+            onClick={handleForgotPassword}
+            className="text-sm text-blue-600 mt-2 cursor-pointer hover:underline text-right"
+          >
+            Forgot Password?
+          </p>
+        )}
       </div>
 
       {!isLogin && (
@@ -117,7 +212,9 @@ export const Login_register = ({ isLogin, setIsLogin }) => {
             className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none transition-all"
           />
           {errors.confirmPassword && (
-            <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.confirmPassword}
+            </p>
           )}
         </div>
       )}

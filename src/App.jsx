@@ -6,10 +6,10 @@ import { Navbar } from "./components/Navbar";
 import { PinedNotes } from "./components/PinedNotes";
 import { Home } from "./components/Home";
 import Notes from "./components/Notes";
+import { Profile } from "./components/Profile"; 
 
 function App() {
   const { notes, loading, setNotes } = useNotes();
-  // const { modal, SetModal } = useState(false);
 
   return (
     <Router>
@@ -29,6 +29,7 @@ function App() {
               <PinedNotes notes={notes} setNotes={setNotes} loading={loading} />
             }
           />
+          <Route path="/profile" element={<Profile />} /> 
         </Routes>
       </div>
     </Router>
