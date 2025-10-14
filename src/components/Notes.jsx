@@ -80,80 +80,82 @@ const notes = ({ notes, loading, setNotes }) => {
     );
   }
 
-  if (notes.length === 0 || !notes) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        No notes available
-      </div>
-    );
-  }
-
   return (
     <>
-      <NoteBar handleClick={handleAddNote}></NoteBar>
-      <div
-        className="grid items-start gap-4 p-4 
-                grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-      >
-        {notes.map((note) => (
+      {!notes || notes.length === 0 ? (
+        <div className="flex justify-center items-center h-screen">
+          <NoteBar handleClick={handleAddNote}></NoteBar>
+        </div>
+      ) : (
+        <>
+          <NoteBar handleClick={handleAddNote}></NoteBar>
           <div
-            key={note.id}
-            className=" bg-white p-4 rounded-lg shadow-md w-full"
+            className="grid items-start gap-4 p-4 
+                grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
           >
-            {/* Buttons */}
-            <div className="flex justify-end gap-2 mb-1">
-              <button
-                onClick={() => handleEditNote(note)}
-                className="btn btn-xs bg-yellow-300"
+            {notes?.map((note) => (
+              <div
+                key={note.id}
+                className=" bg-white p-4 rounded-lg shadow-md w-full"
               >
-                Edit
-              </button>
-              <button
-                onClick={() => deleteNote(note.id)}
-                className="btn btn-xs bg-red-400"
-              >
-                Delete
-              </button>
+                {/* Buttons */}
+                <div className="flex justify-end gap-2 mb-1">
+                  <button
+                    onClick={() => handleEditNote(note)}
+                    className="btn btn-xs bg-yellow-300"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => deleteNote(note.id)}
+                    className="btn btn-xs bg-red-400"
+                  >
+                    Delete
+                  </button>
 
-              <button
-                onClick={() => pinNote(note.id)}
-                className="btn btn-xs bg-blue-400"
-              >
-                {note.pinned ? "Unpin" : "Pin"}
-              </button>
-            </div>
-            {/* Collapse card */}
-            <div
-              className={`collapse collapse-arrow bg-base-100 border border-base-300 ${
-                open.includes(note.id) ? "collapse-open" : ""
-              }`}
-              onClick={() => handleNoteClick(note.id)}
-            >
-              <span className="collapse-title font-semibold">{note.title}</span>
+                  <button
+                    onClick={() => pinNote(note.id)}
+                    className="btn btn-xs bg-blue-400"
+                  >
+                    {note.pinned ? "Unpin" : "Pin"}
+                  </button>
+                </div>
+                {/* Collapse card */}
+                <div
+                  className={`collapse collapse-arrow bg-base-100 border border-base-300 ${
+                    open.includes(note.id) ? "collapse-open" : ""
+                  }`}
+                  onClick={() => handleNoteClick(note.id)}
+                >
+                  <span className="collapse-title font-semibold">
+                    {note.title}
+                  </span>
 
-              <div className="collapse-content text-sm">
-                <p className="truncate-2-lines h-10">
-                  <span className="font-semibold text-overline ">
-                    Details:{" "}
-                  </span>{" "}
-                  {note.content}
-                </p>
-                <p>
-                  <span className="font-semibold">Category: </span>{" "}
-                  {note.category}
-                </p>
-                <p>
-                  <span className="font-semibold">Date: </span> {note.date}
-                </p>
-                <p>
-                  <span className="font-semibold">Tags: </span>
-                  {note.tags.join(", ")}
-                </p>
+                  <div className="collapse-content text-sm">
+                    <p className="truncate-2-lines h-10">
+                      <span className="font-semibold text-overline ">
+                        Details:{" "}
+                      </span>{" "}
+                      {note.content}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Category: </span>{" "}
+                      {note.category}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Date: </span> {note.date}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Tags: </span>
+                      {note.tags.join(", ")}
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </>
+      )}
 
       {/* Single Modal for both add and edit */}
       <Modal

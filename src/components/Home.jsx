@@ -1,8 +1,20 @@
 import React, { useState } from "react";
-import { Login_register } from "./Login_register";
+import { Login_register } from "./login_register";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [successMessage, setSuccessMessage] = useState("");
+  const navigate = useNavigate();
+
+  const onSuccess = () => {
+    if (isLogin) {
+      navigate("/all");
+      return;
+    }
+    setSuccessMessage("Registered successfully. Please login.");
+    setIsLogin(true);
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -10,11 +22,18 @@ export const Home = () => {
         <h2 className="text-2xl font-bold text-center mb-6">
           {isLogin ? "Login" : "Register"}
         </h2>
+        {successMessage && (
+          <p className="text-green-600 text-sm mb-3" role="status">
+            {successMessage}
+          </p>
+        )}
 
         {/* Form */}
-      <Login_register isLogin={isLogin} setIsLogin={setIsLogin} />
-
-    
+        <Login_register
+          isLogin={isLogin}
+          setIsLogin={setIsLogin}
+          onSuccess={onSuccess}
+        />
       </div>
     </div>
   );
