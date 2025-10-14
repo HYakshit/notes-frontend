@@ -19,7 +19,7 @@ export const Home = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-lg rounded-2xl p-8 w-96">
-        <h2 className="text-2xl font-bold text-center mb-6">
+        <h2 className="text-2xl font-bold text-center mb-6 text-black">
           {isLogin ? "Login" : "Register"}
         </h2>
         {successMessage && (
