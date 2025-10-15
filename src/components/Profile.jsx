@@ -1,8 +1,16 @@
 import React from "react";
-import profileImg from "../assets/profile.png"; 
+import profileImg from "../assets/profile.png";
 import LogoutIcon from "@mui/icons-material/Logout";
-
+import { logout } from "../services/api";
 export const Profile = () => {
+  const handleLogout = async () => {
+    try {
+      await logout();
+      console.log("Logged out successfully");
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-5">
       <div className="w-full max-w-sm bg-white p-6 rounded-lg shadow-md text-center">
@@ -25,6 +33,7 @@ export const Profile = () => {
         <hr className="my-4" />
 
         <button
+          onClick={handleLogout}
           className="w-full bg-red-500 hover:bg-red-600 text-white p-3 rounded-lg mt-4 font-medium flex items-center justify-center gap-2 cursor-pointer"
         >
           <LogoutIcon style={{ color: "white" }} />

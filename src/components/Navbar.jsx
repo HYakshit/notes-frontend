@@ -22,6 +22,7 @@ export const Navbar = () => {
 
   return (
     <div className="navbar bg-base-100 shadow-sm px-4">
+      {/* Mobile Navbar */}
       <div className="navbar-start flex items-center gap-4">
         <div className="dropdown lg:hidden">
           <div tabIndex={0} className="btn btn-ghost">
@@ -58,7 +59,9 @@ export const Navbar = () => {
         </Link>
       </div>
 
-      <div className="navbar-center">
+      {/* Desktop Navbar */}
+
+      <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 gap-4">
           <li>
             <Link to="/all" className="btn btn-ghost text-base">
@@ -72,12 +75,12 @@ export const Navbar = () => {
           </li>
         </ul>
       </div>
-
-      <div className="navbar-end relative" ref={dropdownRef}>
+      {/* profile */}
+      <div className="navbar-end relative text-black" ref={dropdownRef}>
         <img
           src={profileImg}
           alt="Profile"
-          className="w-10 h-10 rounded-full cursor-pointer"
+          className="w-10 h-10 text-black  rounded-full cursor-pointer"
           onClick={toggleDropdown}
         />
 
