@@ -71,11 +71,6 @@ export const logout = async () => {
   return res.data;
 };
 
-export const logout = async () => {
-  const res = await axios.post(`${API_URL}/logout`);
-  return res.data;
-};
-
 export const forgot= async () => {
   const res = await axios.post(`${API_URL}/forgot-password`);
   return res.data;

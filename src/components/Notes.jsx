@@ -25,16 +25,16 @@ const Notes = ({ notes, loading, setNotes }) => {
 
   // Existing collapse toggle
   const handleNoteClick = (id) => {
-    setOpenNotes(prev =>
-      prev.includes(id)
-        ? prev.filter(noteId => noteId !== id)
-        : [...prev, id]
+    setOpenNotes((prev) =>
+      prev.includes(id) ? prev.filter((noteId) => noteId !== id) : [...prev, id]
     );
   };
 
   // Existing add/edit/delete/pin logic stays the same
   const deleteNote = (id) => {
-    notesApi.deleteNote(id).then(() => notesApi.fetchNotes().then(data => setNotes(data)));
+    notesApi
+      .deleteNote(id)
+      .then(() => notesApi.fetchNotes().then((data) => setNotes(data)));
   };
 
   const handleAddNote = () => {
@@ -50,7 +50,9 @@ const Notes = ({ notes, loading, setNotes }) => {
   };
 
   const pinNote = (id) => {
-    notesApi.updateNote(id, { pinned: true }).then(() => notesApi.fetchNotes().then(data => setNotes(data)));
+    notesApi
+      .updateNote(id, { pinned: true })
+      .then(() => notesApi.fetchNotes().then((data) => setNotes(data)));
   };
 
   function handleNoteAdded() {
@@ -65,19 +67,6 @@ const Notes = ({ notes, loading, setNotes }) => {
     notesApi.fetchNotes().then((data) => {
       setNotes(data);
     });
-  }
-
-  function pinNote(id) {
-    axios
-      .put(`/api/notes/${id}/pin`)
-      .then(() => {
-        notesApi.fetchNotes().then((data) => {
-          setNotes(data);
-        });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
   }
 
   if (loading) {
@@ -166,7 +155,15 @@ const Notes = ({ notes, loading, setNotes }) => {
       )}
 
       {/* Add/Edit Modal (unchanged) */}
-      <Modal fields={selectedNote} ref={modalRef} mode={modalMode} onNoteAdded={() => notesApi.fetchNotes().then(data => setNotes(data))} onNoteUpdated={() => notesApi.fetchNotes().then(data => setNotes(data))} />
+      <Modal
+        fields={selectedNote}
+        ref={modalRef}
+        mode={modalMode}
+        onNoteAdded={() => notesApi.fetchNotes().then((data) => setNotes(data))}
+        onNoteUpdated={() =>
+          notesApi.fetchNotes().then((data) => setNotes(data))
+        }
+      />
 
       {/* NEW: Modal to view full note */}
       {viewModalOpen && noteToView && (
@@ -174,11 +171,24 @@ const Notes = ({ notes, loading, setNotes }) => {
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-xl w-full max-h-[90vh] overflow-y-auto text-black">
             <h2 className="text-2xl font-bold mb-4">{noteToView.title}</h2>
             <p className="mb-2 whitespace-pre-wrap">{noteToView.content}</p>
-            <p><span className="font-semibold">Category:</span> {noteToView.category}</p>
-            <p><span className="font-semibold">Date:</span> {noteToView.date}</p>
-            <p><span className="font-semibold">Tags:</span> {noteToView.tags.join(", ")}</p>
+            <p>
+              <span className="font-semibold">Category:</span>{" "}
+              {noteToView.category}
+            </p>
+            <p>
+              <span className="font-semibold">Date:</span> {noteToView.date}
+            </p>
+            <p>
+              <span className="font-semibold">Tags:</span>{" "}
+              {noteToView.tags.join(", ")}
+            </p>
             <div className="mt-4 flex justify-end">
-              <button className="btn btn-primary" onClick={handleCloseViewModal}>Close</button>
+              <button
+                className="btn btn-primary"
+                onClick={handleCloseViewModal}
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>
