@@ -70,3 +70,22 @@ export const logout = async () => {
   const res = await apiClient.post(`/logout`);
   return res.data;
 };
+
+export const logout = async () => {
+  const res = await axios.post(`${API_URL}/logout`);
+  return res.data;
+};
+
+export const forgot= async () => {
+  const res = await axios.post(`${API_URL}/forgot-password`);
+  return res.data;
+};
+
+export const reset = async (access_token, refresh_token, new_password) => {
+  const res = await axios.post(`${API_URL}/reset-password/`, {
+    access_token,
+    refresh_token,
+    new_password
+  });
+  return res.data;
+};

@@ -1,49 +1,57 @@
-import axios from "axios";
-import { useRef, useState } from "react";
+import React, { useState, useRef } from "react";
 import * as notesApi from "../services/api";
-
 import { NoteBar } from "./NoteBar";
-import Modal from "./Modal";
+import Modal from "./Modal"; // your existing Add/Edit modal
 
-const notes = ({ notes, loading, setNotes }) => {
-  const [open, setOpenNotes] = useState([]); // null = none open, id = open note
-  const [modalMode, setModalMode] = useState("add"); // 'add' or 'edit'
+const Notes = ({ notes, loading, setNotes }) => {
+  const [open, setOpenNotes] = useState([]);
+  const [modalMode, setModalMode] = useState("add");
   const [selectedNote, setSelectedNote] = useState(null);
-  const modalref = useRef();
+  const modalRef = useRef();
 
-  function deleteNote(id) {
-    notesApi
-      .deleteNote(id)
-      .then(() => {
-        notesApi.fetchNotes().then((data) => {
-          setNotes(data);
-        });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }
+  // NEW: Modal for viewing full note
+  const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [noteToView, setNoteToView] = useState(null);
 
-  function handleAddNote() {
+  const handleViewNote = (note) => {
+    setNoteToView(note);
+    setViewModalOpen(true);
+  };
+
+  const handleCloseViewModal = () => {
+    setNoteToView(null);
+    setViewModalOpen(false);
+  };
+
+  // Existing collapse toggle
+  const handleNoteClick = (id) => {
+    setOpenNotes(prev =>
+      prev.includes(id)
+        ? prev.filter(noteId => noteId !== id)
+        : [...prev, id]
+    );
+  };
+
+  // Existing add/edit/delete/pin logic stays the same
+  const deleteNote = (id) => {
+    notesApi.deleteNote(id).then(() => notesApi.fetchNotes().then(data => setNotes(data)));
+  };
+
+  const handleAddNote = () => {
     setModalMode("add");
     setSelectedNote(null);
-    modalref.current.showModal();
-  }
+    modalRef.current.showModal();
+  };
 
-  function handleEditNote(note) {
+  const handleEditNote = (note) => {
     setModalMode("edit");
     setSelectedNote(note);
-    modalref.current.showModal();
-  }
+    modalRef.current.showModal();
+  };
 
-  function handleNoteClick(id) {
-    setOpenNotes(
-      (prev) =>
-        prev.includes(id)
-          ? prev.filter((noteId) => noteId !== id) // close if already open
-          : [...prev, id] // otherwise add to open
-    );
-  }
+  const pinNote = (id) => {
+    notesApi.updateNote(id, { pinned: true }).then(() => notesApi.fetchNotes().then(data => setNotes(data)));
+  };
 
   function handleNoteAdded() {
     // Refresh notes list after adding
@@ -157,16 +165,26 @@ const notes = ({ notes, loading, setNotes }) => {
         </>
       )}
 
-      {/* Single Modal for both add and edit */}
-      <Modal
-        fields={selectedNote}
-        ref={modalref}
-        mode={modalMode}
-        onNoteAdded={handleNoteAdded}
-        onNoteUpdated={handleNoteUpdated}
-      />
+      {/* Add/Edit Modal (unchanged) */}
+      <Modal fields={selectedNote} ref={modalRef} mode={modalMode} onNoteAdded={() => notesApi.fetchNotes().then(data => setNotes(data))} onNoteUpdated={() => notesApi.fetchNotes().then(data => setNotes(data))} />
+
+      {/* NEW: Modal to view full note */}
+      {viewModalOpen && noteToView && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-xl w-full max-h-[90vh] overflow-y-auto text-black">
+            <h2 className="text-2xl font-bold mb-4">{noteToView.title}</h2>
+            <p className="mb-2 whitespace-pre-wrap">{noteToView.content}</p>
+            <p><span className="font-semibold">Category:</span> {noteToView.category}</p>
+            <p><span className="font-semibold">Date:</span> {noteToView.date}</p>
+            <p><span className="font-semibold">Tags:</span> {noteToView.tags.join(", ")}</p>
+            <div className="mt-4 flex justify-end">
+              <button className="btn btn-primary" onClick={handleCloseViewModal}>Close</button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
 
-export default notes;
+export default Notes;

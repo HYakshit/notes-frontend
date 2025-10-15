@@ -32,6 +32,25 @@ export const Login_register = ({ isLogin, setIsLogin, onSuccess }) => {
     }
   };
 
+  const handleForgotPassword = async () => {
+    if (!formData.email.trim()) {
+      alert("Please enter your email to reset your password.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const res = await forgot(formData.email);
+      alert(
+        res.message || res.detail || "Password reset link sent to your email!"
+      );
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
       {!isLogin && (
