@@ -46,7 +46,7 @@ export const Navbar = () => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
           >
             <li>
-              <Link to="/all">All Notes</Link>
+              <Link to="/notes">All Notes</Link>
             </li>
             <li>
               <Link to="/pinned">Pinned Notes</Link>
@@ -64,7 +64,7 @@ export const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 gap-4">
           <li>
-            <Link to="/all" className="btn btn-ghost text-base">
+            <Link to="/notes" className="btn btn-ghost text-base">
               All Notes
             </Link>
           </li>

@@ -9,7 +9,7 @@ export const Home = () => {
 
   const onSuccess = () => {
     if (isLogin) {
-      navigate("/all");
+      navigate("/notes");
       return;
     }
     setSuccessMessage("Registered successfully. Please login.");

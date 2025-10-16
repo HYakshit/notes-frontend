@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, use, useEffect } from "react";
 import * as notesApi from "../services/api";
 import { NoteBar } from "./NoteBar";
 import Modal from "./Modal"; // your existing Add/Edit modal
@@ -12,6 +12,10 @@ const Notes = ({ notes, loading, setNotes }) => {
   // NEW: Modal for viewing full note
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [noteToView, setNoteToView] = useState(null);
+
+    useEffect(() => {
+    notesApi.fetchNotes().then((data) => setNotes(data));
+  }, []);
 
   const handleViewNote = (note) => {
     setNoteToView(note);
@@ -51,23 +55,9 @@ const Notes = ({ notes, loading, setNotes }) => {
 
   const pinNote = (id) => {
     notesApi
-      .updateNote(id, { pinned: true })
+      .pinNote(id, { pinned: true })
       .then(() => notesApi.fetchNotes().then((data) => setNotes(data)));
   };
-
-  function handleNoteAdded() {
-    // Refresh notes list after adding
-    notesApi.fetchNotes().then((data) => {
-      setNotes(data);
-    });
-  }
-
-  function handleNoteUpdated() {
-    // Refresh notes list after updating
-    notesApi.fetchNotes().then((data) => {
-      setNotes(data);
-    });
-  }
 
   if (loading) {
     return (
@@ -77,12 +67,17 @@ const Notes = ({ notes, loading, setNotes }) => {
     );
   }
 
+
   return (
     <>
       {!notes || notes.length === 0 ? (
-        <div className="flex justify-center items-center h-screen">
+        <>
           <NoteBar handleClick={handleAddNote}></NoteBar>
-        </div>
+
+          <div className="flex justify-center items-center h-screen">
+            No notes available. Please add some notes.
+          </div>
+        </>
       ) : (
         <>
           <NoteBar handleClick={handleAddNote}></NoteBar>
@@ -97,6 +92,12 @@ const Notes = ({ notes, loading, setNotes }) => {
               >
                 {/* Buttons */}
                 <div className="flex justify-end gap-2 mb-1">
+                  <button
+                    onClick={() => handleViewNote(note)}
+                    className="btn btn-xs bg-yellow-300"
+                  >
+                    View full
+                  </button>
                   <button
                     onClick={() => handleEditNote(note)}
                     className="btn btn-xs bg-yellow-300"

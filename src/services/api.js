@@ -45,6 +45,10 @@ export const deleteNote = async (id) => {
   const res = await apiClient.delete(`/notes/${id}`);
   return res.data;
 };
+export const pinNote = async (id) => {
+  const res = await apiClient.put(`notes/${id}/pin`);
+  return res.data;
+};
 
 // Auth APIs (aligned with backend)
 export const register = async ({ email, password, displayName }) => {
