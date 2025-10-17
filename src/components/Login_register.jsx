@@ -1,35 +1,130 @@
 import React, { useState } from "react";
-import { login as apiLogin, register as apiRegister } from "../services/api";
+import axios from "axios";
 
-export const Login_register = ({ isLogin, setIsLogin, onSuccess }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [displayName, setDisplayName] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setSubmitting(true);
-    try {
-      if (isLogin) {
-        await apiLogin({ email, password });
-      } else {
-        if (password !== confirmPassword) {
-          setError("Passwords do not match");
-          return;
-        }
-        await apiRegister({ email, password, displayName });
+const API_URL = "https://express-fruit-1gm4.onrender.com/api";
+
+// Forgot password request
+export const forgot = async (email) => {
+  try {
+    const res = await axios.post(`${API_URL}/forgot-password`, { email });
+    return res.data;
+  } catch (error) {
+    console.error(
+      "Forgot password error:",
+      error.response?.data || error.message
+    );
+    throw new Error(
+      error.response?.data?.message || "Failed to send reset link"
+    );
+  }
+};
+
+// Reset password request
+export const reset = async (access_token, refresh_token, new_password) => {
+  try {
+    const res = await axios.post(`${API_URL}/reset-password/`, {
+      access_token,
+      refresh_token,
+      new_password,
+    });
+    return res.data;
+  } catch (error) {
+    console.error(
+      "Reset password error:",
+      error.response?.data || error.message
+    );
+    throw new Error(
+      error.response?.data?.message || "Failed to reset password"
+    );
+  }
+};
+
+export const Login_register = ({ isLogin, setIsLogin }) => {
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [registeredUser, setRegisteredUser] = useState(null);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: "" });
+  };
+
+  const validate = () => {
+    const newErrors = {};
+    const usernameRegex = /^[A-Za-z0-9_]+$/;
+
+    if (!isLogin) {
+      if (!formData.username.trim()) {
+        newErrors.username = "Username is required";
+      } else if (
+        formData.username.length < 3 ||
+        formData.username.length > 15
+      ) {
+        newErrors.username = "Username must be between 3 and 15 characters";
+      } else if (!usernameRegex.test(formData.username)) {
+        newErrors.username = "Username must not contain special characters";
       }
-      onSuccess && onSuccess();
-    } catch (err) {
-      const message = err?.response?.data?.message || err.message || "Error";
-      setError(message);
-    } finally {
-      setSubmitting(false);
     }
+
+    if (!formData.email.trim()) newErrors.email = "Email is required";
+
+    if (!formData.password.trim()) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 6 || formData.password.length > 20) {
+      newErrors.password = "Password must be between 6 and 20 characters";
+    } else if (!isLogin && formData.password === formData.username) {
+      newErrors.password = "Password cannot be the same as username";
+    }
+
+    if (!isLogin && formData.password !== formData.confirmPassword)
+      newErrors.confirmPassword = "Passwords do not match";
+
+    return newErrors;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+      if (isLogin) {
+        if (
+          registeredUser &&
+          formData.email === registeredUser.email &&
+          formData.password === registeredUser.password
+        ) {
+          alert("Login Successful");
+        } else {
+          setErrors({
+            email: "Invalid email or password",
+            password: "Invalid email or password",
+          });
+        }
+      } else {
+        setRegisteredUser({
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        });
+        alert("Registration Successful");
+        setIsLogin(true);
+      }
+    }, 2000);
   };
 
   const handleForgotPassword = async () => {
@@ -52,72 +147,116 @@ export const Login_register = ({ isLogin, setIsLogin, onSuccess }) => {
   };
 
   return (
-    <form className="space-y-4" onSubmit={handleSubmit}>
+    <form className="space-y-5" onSubmit={handleSubmit}>
       {!isLogin && (
-        <input
-          type="text"
-          placeholder="Username"
-          value={displayName}
-          onChange={(e) => setDisplayName(e.target.value)}
-          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
+        <div>
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={formData.username}
+            onChange={handleChange}
+            className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none transition-all"
+          />
+          {errors.username && (
+            <p className="text-red-500 text-sm mt-1">{errors.username}</p>
+          )}
+        </div>
       )}
 
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-        required
-      />
+      <div>
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none transition-all"
+        />
+        {errors.email && (
+          <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+        )}
+      </div>
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-        required
-      />
-
-      {!isLogin && (
+      <div>
         <input
           type="password"
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-          required
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none transition-all"
         />
-      )}
+        {errors.password && (
+          <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+        )}
 
-      {error && (
-        <p className="text-red-500 text-sm" role="alert">
-          {error}
-        </p>
+        {isLogin && (
+          <p
+            onClick={handleForgotPassword}
+            className="text-sm text-blue-600 mt-2 cursor-pointer hover:underline text-right"
+          >
+            Forgot Password?
+          </p>
+        )}
+      </div>
+
+      {!isLogin && (
+        <div>
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none transition-all"
+          />
+          {errors.confirmPassword && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.confirmPassword}
+            </p>
+          )}
+        </div>
       )}
 
       <button
         type="submit"
-        disabled={submitting}
-        className="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition disabled:opacity-60"
+        disabled={loading}
+        className={`w-full bg-black text-white p-3 rounded-lg font-medium shadow-sm flex justify-center items-center ${
+          loading ? "opacity-70 cursor-not-allowed" : ""
+        }`}
       >
-        {submitting
-          ? isLogin
-            ? "Logging in..."
-            : "Registering..."
-          : isLogin
-          ? "Login"
-          : "Register"}
+        {loading && (
+          <svg
+            className="animate-spin h-5 w-5 mr-2 text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+            ></path>
+          </svg>
+        )}
+        {isLogin ? "Login" : "Register"}
       </button>
-      {/* Toggle */}
-      <p className="text-center mt-4 text-sm">
+
+      <p className="text-center mt-4 text-sm text-black">
         {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
         <button
           type="button"
           onClick={() => setIsLogin(!isLogin)}
-          className="text-blue-500 hover:underline"
+          className="text-black font-medium hover:underline cursor-pointer"
         >
           {isLogin ? "Register" : "Login"}
         </button>
