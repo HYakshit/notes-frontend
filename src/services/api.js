@@ -1,5 +1,6 @@
-// src/services/api.js
+
 import axios from "axios";
+
 
 // Create a credentialed axios instance targeting the Vite proxy at /api
 export const apiClient = axios.create({
@@ -75,16 +76,16 @@ export const logout = async () => {
   return res.data;
 };
 
-export const forgot= async () => {
-  const res = await axios.post(`${API_URL}/forgot-password`);
+export const forgotPassword = async (email) => {
+  const res = await apiClient.post(`/forgot-password`,{email});
   return res.data;
 };
 
 export const reset = async (access_token, refresh_token, new_password) => {
-  const res = await axios.post(`${API_URL}/reset-password/`, {
+  const res = await apiClient.post(`/reset-password/`, {
     access_token,
     refresh_token,
-    new_password
+    new_password,
   });
   return res.data;
 };

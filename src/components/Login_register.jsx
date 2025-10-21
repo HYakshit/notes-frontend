@@ -1,46 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { login as apiLogin, register as apiRegister, forgotPassword } from "../services/api";
 
-
-const API_URL = "https://express-fruit-1gm4.onrender.com/api";
-
-// Forgot password request
-export const forgot = async (email) => {
-  try {
-    const res = await axios.post(`${API_URL}/forgot-password`, { email });
-    return res.data;
-  } catch (error) {
-    console.error(
-      "Forgot password error:",
-      error.response?.data || error.message
-    );
-    throw new Error(
-      error.response?.data?.message || "Failed to send reset link"
-    );
-  }
-};
-
-// Reset password request
-export const reset = async (access_token, refresh_token, new_password) => {
-  try {
-    const res = await axios.post(`${API_URL}/reset-password/`, {
-      access_token,
-      refresh_token,
-      new_password,
-    });
-    return res.data;
-  } catch (error) {
-    console.error(
-      "Reset password error:",
-      error.response?.data || error.message
-    );
-    throw new Error(
-      error.response?.data?.message || "Failed to reset password"
-    );
-  }
-};
-
-export const Login_register = ({ isLogin, setIsLogin }) => {
+export const Login_register = ({ isLogin, setIsLogin,onSuccess }) => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -90,41 +51,33 @@ export const Login_register = ({ isLogin, setIsLogin }) => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-
     setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const { email, password, displayName, confirmPassword } = formData;
       if (isLogin) {
-        if (
-          registeredUser &&
-          formData.email === registeredUser.email &&
-          formData.password === registeredUser.password
-        ) {
-          alert("Login Successful");
-        } else {
-          setErrors({
-            email: "Invalid email or password",
-            password: "Invalid email or password",
-          });
-        }
+        await apiLogin({ email, password });
       } else {
-        setRegisteredUser({
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-        });
-        alert("Registration Successful");
-        setIsLogin(true);
+        if (password !== confirmPassword) {
+          setErrors("Passwords do not match");
+          return;
+        }
+        await apiRegister({ email, password, displayName });
+        setLoading(false);
       }
-    }, 2000);
+      onSuccess && onSuccess();
+    } catch (err) {
+      const message = err?.response?.data?.message || err.message || "Error";
+      setErrors(message);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleForgotPassword = async () => {
@@ -135,7 +88,7 @@ export const Login_register = ({ isLogin, setIsLogin }) => {
 
     try {
       setLoading(true);
-      const res = await forgot(formData.email);
+      const res = await forgotPassword(formData.email);
       alert(
         res.message || res.detail || "Password reset link sent to your email!"
       );

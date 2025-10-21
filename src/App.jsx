@@ -13,6 +13,7 @@ import { Home } from "./components/Home";
 import Notes from "./components/Notes";
 import { setUnauthorizedHandler } from "./services/api";
 import { Profile } from "./components/Profile"; 
+import ResetPassword from "./components/ResetPassword";
 
 function App() {
     const { notes, loading, setNotes } = useNotes();
@@ -42,6 +43,7 @@ function App() {
             }
           />
           <Route path="/profile" element={<Profile />} /> 
+          <Route path="/reset-password" element={<ResetPassword />} /> 
         </Routes>
       </div>
    
