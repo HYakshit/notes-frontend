@@ -71,11 +71,11 @@ export default function ResetPassword() {
         setSuccess("");
 
         try {
-            const data = await reset(tokens.access_token, tokens.refresh_token, password);
+            const data = await resetPassword(tokens.access_token, tokens.refresh_token, password);
             setSuccess(data.message || "Password has been reset. Redirecting to login...");
             setLoading(false);
 
-            setTimeout(() => navigate("/"), 2000);
+            setTimeout(() => navigate("/"), 1000);
         } catch (err) {
             setError(err.response?.data?.message || "Failed to reset password. Please try again.");
             setLoading(false);
@@ -170,7 +170,7 @@ export default function ResetPassword() {
                 </button>
             </form>
 
-            <div style={{ marginTop: 12, fontSize: 13, color: "#666" }}>
+            {/* <div style={{ marginTop: 12, fontSize: 13, color: "#666" }}>
                 Already have an account?{" "}
                 <button
                     onClick={() => navigate("/")}
@@ -178,7 +178,7 @@ export default function ResetPassword() {
                 >
                     Sign in
                 </button>
-            </div>
+            </div> */}
         </div>
     );
 }
