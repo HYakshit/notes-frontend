@@ -1,19 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { reset } from "../services/api";
 
 export default function ResetPassword() {
     const navigate = useNavigate();
-    const params = useParams();
     const location = useLocation();
 
-    // Token can come from route param (/reset/:token) or query string (?token=...)
-    const getTokenFromLocation = () => {
-        if (params && params.token) return params.token;
-        const q = new URLSearchParams(location.search);
-        return q.get("token") || "";
+    // Extract Supabase tokens from URL hash or query parameters
+    const getTokensFromLocation = () => {
+        // Check URL hash first (Supabase typically uses this)
+        const hash = location.hash;
+        if (hash) {
+            const hashParams = new URLSearchParams(hash.substring(1));
+            const access_token = hashParams.get('access_token');
+            const refresh_token = hashParams.get('refresh_token');
+            if (access_token && refresh_token) {
+                return { access_token, refresh_token };
+            }
+        }
+        
+        // Check query parameters as fallback
+        const searchParams = new URLSearchParams(location.search);
+        const access_token = searchParams.get('access_token');
+        const refresh_token = searchParams.get('refresh_token');
+        
+        return { access_token, refresh_token };
     };
 
-    const [token] = useState(getTokenFromLocation());
+    const [tokens] = useState(getTokensFromLocation());
     const [password, setPassword] = useState("");
     const [confirm, setConfirm] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -22,10 +36,10 @@ export default function ResetPassword() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (!token) {
-            setError("Reset token not found. Check your link.");
+        if (!tokens.access_token || !tokens.refresh_token) {
+            setError("Reset tokens not found. Check your link.");
         }
-    }, [token]);
+    }, [tokens]);
 
     const validate = () => {
         setError("");
@@ -41,8 +55,8 @@ export default function ResetPassword() {
             setError("Passwords do not match.");
             return false;
         }
-        if (!token) {
-            setError("Missing reset token.");
+        if (!tokens.access_token || !tokens.refresh_token) {
+            setError("Missing reset tokens.");
             return false;
         }
         return true;
@@ -57,25 +71,13 @@ export default function ResetPassword() {
         setSuccess("");
 
         try {
-            const res = await fetch("/api/auth/reset-password", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ token, password }),
-            });
-
-            const data = await res.json();
-            if (!res.ok) {
-                setError(data.message || "Failed to reset password.");
-                setLoading(false);
-                return;
-            }
-
+            const data = await reset(tokens.access_token, tokens.refresh_token, password);
             setSuccess(data.message || "Password has been reset. Redirecting to login...");
             setLoading(false);
 
-            setTimeout(() => navigate("/login"), 2000);
+            setTimeout(() => navigate("/"), 2000);
         } catch (err) {
-            setError("Network error. Try again.");
+            setError(err.response?.data?.message || "Failed to reset password. Please try again.");
             setLoading(false);
         }
     };
@@ -171,7 +173,7 @@ export default function ResetPassword() {
             <div style={{ marginTop: 12, fontSize: 13, color: "#666" }}>
                 Already have an account?{" "}
                 <button
-                    onClick={() => navigate("/login")}
+                    onClick={() => navigate("/")}
                     style={{ color: "#0366d6", background: "transparent", border: "none", padding: 0, cursor: "pointer" }}
                 >
                     Sign in

@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   useNavigate,
+  useLocation,
 } from "react-router-dom";
 import { useEffect } from "react";
 import { useNotes } from "./hooks/useNotes";
@@ -16,7 +17,9 @@ import { Profile } from "./components/Profile";
 import ResetPassword from "./components/ResetPassword";
 
 function App() {
-    const { notes, loading, setNotes } = useNotes();
+  const location = useLocation();
+  const isNotesRoute = location.pathname === "/notes" || location.pathname === "/pinned";
+  const { notes, loading, setNotes } = useNotes(isNotesRoute);
   const navigate = useNavigate();
 
   useEffect(() => {
