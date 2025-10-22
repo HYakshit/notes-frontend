@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:4000",
+        target: "https://express-fruit-1gm4.onrender.com",
         changeOrigin: true,
         secure: false,
       },
