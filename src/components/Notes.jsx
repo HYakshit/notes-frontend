@@ -8,8 +8,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import PushPinIcon from "@mui/icons-material/PushPin";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useAuth } from "../hooks/AuthContext";
 
 const Notes = ({ notes, loading, setNotes }) => {
+   const { user } = useAuth();
   const [open, setOpenNotes] = useState([]);
   const [modalMode, setModalMode] = useState("add");
   const [selectedNote, setSelectedNote] = useState(null);
@@ -26,10 +28,11 @@ const Notes = ({ notes, loading, setNotes }) => {
     delete: null,
     pin: null,
   });
-
+ 
   useEffect(() => {
+    if (!user?.email) return;
     notesApi.fetchNotes().then((data) => setNotes(data));
-  }, []);
+  }, [user]);
 
   const handleViewNote = (note) => {
     setNoteToView(note);
@@ -81,7 +84,9 @@ const Notes = ({ notes, loading, setNotes }) => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">Loading...</div>
+      <div className="flex justify-center items-center h-screen">
+        Loading...
+      </div>
     );
   }
 
@@ -100,7 +105,10 @@ const Notes = ({ notes, loading, setNotes }) => {
 
           <div className="grid items-start gap-4 p-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {notes?.map((note) => (
-              <div key={note.id} className="bg-white p-4 rounded-lg shadow-md w-full">
+              <div
+                key={note.id}
+                className="bg-white p-4 rounded-lg shadow-md w-full"
+              >
                 {/* Buttons */}
                 <div className="flex justify-end gap-2 mb-1">
                   {/* View Button */}
@@ -165,11 +173,15 @@ const Notes = ({ notes, loading, setNotes }) => {
                   }`}
                   onClick={() => handleNoteClick(note.id)}
                 >
-                  <span className="collapse-title font-semibold">{note.title}</span>
+                  <span className="collapse-title font-semibold">
+                    {note.title}
+                  </span>
 
                   <div className="collapse-content text-sm">
                     <p className="truncate-2-lines h-10">
-                      <span className="font-semibold text-overline">Details: </span>
+                      <span className="font-semibold text-overline">
+                        Details:{" "}
+                      </span>
                       {note.content}
                     </p>
                     <p>
@@ -209,16 +221,21 @@ const Notes = ({ notes, loading, setNotes }) => {
             <h2 className="text-2xl font-bold mb-4">{noteToView.title}</h2>
             <p className="mb-2 whitespace-pre-wrap">{noteToView.content}</p>
             <p>
-              <span className="font-semibold">Category:</span> {noteToView.category}
+              <span className="font-semibold">Category:</span>{" "}
+              {noteToView.category}
             </p>
             <p>
               <span className="font-semibold">Date:</span> {noteToView.date}
             </p>
             <p>
-              <span className="font-semibold">Tags:</span> {noteToView.tags.join(", ")}
+              <span className="font-semibold">Tags:</span>{" "}
+              {noteToView.tags.join(", ")}
             </p>
             <div className="mt-4 flex justify-end">
-              <button className="btn btn-primary" onClick={handleCloseViewModal}>
+              <button
+                className="btn btn-primary"
+                onClick={handleCloseViewModal}
+              >
                 Close
               </button>
             </div>

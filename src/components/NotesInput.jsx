@@ -226,7 +226,7 @@ export const NotesInput = ({ fields, ref, errors, setErrors, mode, onNoteAdded, 
           Cancel
         </button>
         <button type="submit" className="btn btn-primary">
-          {mode === "add" ? "Add Note" : "Update Note"}
+          {mode === "add" ? "Save Note" : "Update Note"}
         </button>
       </div>
     </form>

@@ -1,16 +1,10 @@
-import React from "react";
+import { Link } from "react-router-dom";
 import profileImg from "../assets/profile.png";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { logout } from "../services/api";
+import { useAuth } from "../hooks/AuthContext";
+import { LogoutBtn } from "./common/LogoutBtn";
 export const Profile = () => {
-  const handleLogout = async () => {
-    try {
-      await logout();
-      console.log("Logged out successfully");
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
-  };
+  const { user, loading } = useAuth();
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-5">
       <div className="w-full max-w-sm bg-white p-6 rounded-lg shadow-md text-center">
@@ -22,23 +16,21 @@ export const Profile = () => {
 
         <div className="mt-4">
           <p className="text-gray-500 text-sm font-semibold">Username</p>
-          <p className="text-black text-lg font-medium">John Doe</p>
+          <p className="text-black text-lg font-medium">
+            {user?.user_metadata?.display_name ?? "Guest"}
+          </p>
         </div>
         <hr className="my-4" />
 
         <div>
           <p className="text-gray-500 text-sm font-semibold">Email</p>
-          <p className="text-black text-lg font-medium">johndoe@example.com</p>
+          <p className="text-black text-lg font-medium">
+            {user?.email ?? "Guest Email"}
+          </p>
         </div>
         <hr className="my-4" />
 
-        <button
-          onClick={handleLogout}
-          className="w-full bg-red-500 hover:bg-red-600 text-white p-3 rounded-lg mt-4 font-medium flex items-center justify-center gap-2 cursor-pointer"
-        >
-          <LogoutIcon style={{ color: "white" }} />
-          Logout
-        </button>
+        {user && !loading ? <LogoutBtn></LogoutBtn> : <Link to="/">Login</Link>}
       </div>
     </div>
   );

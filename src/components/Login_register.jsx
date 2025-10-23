@@ -1,7 +1,13 @@
 import React, { useState } from "react";
-import { login as apiLogin, register as apiRegister, forgotPassword } from "../services/api";
+import {
+  login as apiLogin,
+  register as apiRegister,
+  forgotPassword,
+} from "../services/api";
+import { useAuth } from "../hooks/AuthContext";
 
-export const Login_register = ({ isLogin, setIsLogin,onSuccess }) => {
+export const Login_register = ({ isLogin, setIsLogin, onSuccess }) => {
+    const {  setUser } = useAuth();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -11,7 +17,6 @@ export const Login_register = ({ isLogin, setIsLogin,onSuccess }) => {
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const [registeredUser, setRegisteredUser] = useState(null);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -61,22 +66,30 @@ export const Login_register = ({ isLogin, setIsLogin,onSuccess }) => {
     setLoading(true);
     try {
       const { email, password, displayName, confirmPassword } = formData;
+      let user = null;
       if (isLogin) {
-        await apiLogin({ email, password });
+         user = await apiLogin({ email, password });
+      
+        if (!user.email) {
+          setErrors({ ...errors, server: "User not found" });
+          return;
+        }
       } else {
         if (password !== confirmPassword) {
           setErrors("Passwords do not match");
           return;
         }
-        await apiRegister({ email, password, displayName });
-        setLoading(false);
+       user =  await apiRegister({ email, password, displayName });
       }
+        setUser(user);
+      setLoading(false);
       onSuccess && onSuccess();
     } catch (err) {
       const message = err?.response?.data?.message || err.message || "Error";
       setErrors(message);
     } finally {
-      setSubmitting(false);
+      // setSubmitting(false);
+      setLoading(false);
     }
   };
 
@@ -170,8 +183,15 @@ export const Login_register = ({ isLogin, setIsLogin,onSuccess }) => {
             </p>
           )}
         </div>
+        
       )}
-
+       <div>
+          {errors.server && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.server}
+            </p>
+          )}
+       </div>
       <button
         type="submit"
         disabled={loading}

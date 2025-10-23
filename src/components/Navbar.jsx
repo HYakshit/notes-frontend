@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import profileImg from "../assets/profile.png";
+import { useAuth } from "../hooks/AuthContext";
+import { LogoutBtn } from "./common/LogoutBtn";
 
 export const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-
+  const { user, loading } = useAuth();
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
@@ -21,9 +23,9 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <div className="navbar bg-base-100 shadow-sm px-4">
+    <div className="navbar navbar-bg shadow-sm px-4">
       {/* Mobile Navbar */}
-      <div className="navbar-start flex items-center gap-4">
+      <div className="navbar-start  flex items-center gap-4">
         <div className="dropdown lg:hidden">
           <div tabIndex={0} className="btn btn-ghost">
             <svg
@@ -46,15 +48,19 @@ export const Navbar = () => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
           >
             <li>
-              <Link to="/notes">All Notes</Link>
+              <Link className="btn-hover" to="/notes">
+                All Notes
+              </Link>
             </li>
             <li>
-              <Link to="/pinned">Pinned Notes</Link>
+              <Link className="btn-hover" to="/pinned">
+                Pinned Notes
+              </Link>
             </li>
           </ul>
         </div>
 
-        <Link to="/" className="btn btn-ghost text-xl">
+        <Link to="/notes" className="btn btn-hover btn-ghost text-xl">
           Notes App
         </Link>
       </div>
@@ -64,12 +70,12 @@ export const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 gap-4">
           <li>
-            <Link to="/notes" className="btn btn-ghost text-base">
+            <Link to="/notes" className="btn btn-ghost btn-hover text-base">
               All Notes
             </Link>
           </li>
           <li>
-            <Link to="/pinned" className="btn btn-ghost text-base">
+            <Link to="/pinned" className="btn btn-ghost btn-hover text-base">
               Pinned Notes
             </Link>
           </li>
@@ -93,22 +99,30 @@ export const Navbar = () => {
                 className="w-10 h-10 rounded-full filter brightness-0"
               />
               <div className="text-left">
-                <p className="text-black font-semibold text-sm">John Doe</p>
-                <p className="text-gray-500 text-xs">johndoe@example.com</p>
+                <p className="text-black font-semibold text-sm">
+                  {user?.user_metadata?.display_name ?? "Guest"}
+                </p>
+                <p className="text-gray-500 text-xs">
+                  {user?.email ?? "Guest Email"}
+                </p>
               </div>
             </div>
             <hr />
 
             <Link
               to="/Profile"
-              className="block px-4 py-2 text-black hover:bg-gray-100 cursor-pointer"
+              className="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
             >
               Profile
             </Link>
             <hr />
 
-            <div className="px-4 py-2 text-black hover:bg-gray-100 cursor-pointer">
-              Logout
+            <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+              {user && !loading ? (
+                <LogoutBtn width="full" fontsize="sm" p="1" mt="0"></LogoutBtn>
+              ) : (
+                <Link to="/">Login</Link>
+              )}
             </div>
           </div>
         )}

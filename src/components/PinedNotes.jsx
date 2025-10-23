@@ -76,7 +76,6 @@ export const PinedNotes = ({ notes, loading, setNotes }) => {
 
               {/* Edit Button */}
               <button
-                onClick={() => console.log("Edit logic here")}
                 className="btn btn-xs flex items-center justify-center"
                 style={{ backgroundColor: "#22c55e", color: "white" }}
               >
@@ -89,7 +88,6 @@ export const PinedNotes = ({ notes, loading, setNotes }) => {
 
               {/* Delete Button */}
               <button
-                onClick={() => console.log("Delete logic here")}
                 className="btn btn-xs flex items-center justify-center"
                 style={{ backgroundColor: "#ef4444", color: "white" }}
               >
