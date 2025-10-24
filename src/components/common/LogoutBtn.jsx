@@ -1,8 +1,11 @@
 import React from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { logout } from "../../services/api";
+import { fetchNotes } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthContext";
+import { useNotes } from "../../hooks/useNotes";
+import isNotesRoute from "../../utill/checkRoute";
 
 export const LogoutBtn = ({
   width = "full",
@@ -10,12 +13,14 @@ export const LogoutBtn = ({
   p = "3",
   mt = "4",
 }) => {
-    const {  setUser } = useAuth();
+  const { setNotes } = useNotes(isNotesRoute);
+  const { setUser } = useAuth();
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
       await logout();
       setUser(null);
+      setNotes([]);
       navigate("/");
     } catch (error) {
       console.error("Error logging out:", error);

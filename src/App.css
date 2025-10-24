@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-
 .truncate-2-lines {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -11,13 +10,13 @@
 }
 
 .navbar-bg {
-  background-color: #feefc3; 
+  background-color: #feefc3;
 }
 
-.btn-hover:hover{
-  background-color: #fde68a; 
+.btn-hover:hover {
+  background-color: #fde68a;
   border: none;
 }
-.mybtn{
+.mybtn {
   color: #232f3e;
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NotesInput } from "./NotesInput";
+import { NotesInput } from "../NotesInput";
 
 
 const Modal = ({ fields, ref, mode, onNoteAdded, onNoteUpdated }) => {

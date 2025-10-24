@@ -3,7 +3,7 @@ import "./App.css";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { createContext, use, useEffect } from "react";
 import { useNotes } from "./hooks/useNotes";
-import { Navbar } from "./components/Navbar";
+import { Navbar } from "./components/common/Navbar";
 import { PinedNotes } from "./components/PinedNotes";
 import { Home } from "./components/Home";
 import Notes from "./components/Notes";

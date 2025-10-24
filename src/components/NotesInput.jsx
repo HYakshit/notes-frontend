@@ -2,7 +2,15 @@ import React from "react";
 import { useState, useEffect } from "react";
 import * as notesApi from "../services/api";
 
-export const NotesInput = ({ fields, ref, errors, setErrors, mode, onNoteAdded, onNoteUpdated }) => {
+export const NotesInput = ({
+  fields,
+  ref,
+  errors,
+  setErrors,
+  mode,
+  onNoteAdded,
+  onNoteUpdated,
+}) => {
   const handleClose = () => {
     ref.current.close();
     setErrors({});
@@ -15,8 +23,6 @@ export const NotesInput = ({ fields, ref, errors, setErrors, mode, onNoteAdded, 
     date: new Date().toISOString().split("T")[0],
   });
 
-
-
   // Update form data when fields change (for edit mode)
   useEffect(() => {
     if (fields && mode === "edit") {
@@ -25,7 +31,6 @@ export const NotesInput = ({ fields, ref, errors, setErrors, mode, onNoteAdded, 
         content: fields.content || "",
         category: fields.category || "",
         tags: fields.tags ? fields.tags.join(", ") : "",
-        date: fields.date || new Date().toISOString().split("T")[0],
       });
     } else if (mode === "add") {
       setFormData({
@@ -33,9 +38,12 @@ export const NotesInput = ({ fields, ref, errors, setErrors, mode, onNoteAdded, 
         content: "",
         category: "",
         tags: "",
-        date: new Date().toISOString().split("T")[0],
       });
     }
+    setFormData((prev) => ({
+      ...prev,
+      date: new Date().toISOString().split("T")[0],
+    }));
   }, [fields, mode]);
 
   const handleInputChange = (e) => {
@@ -53,18 +61,30 @@ export const NotesInput = ({ fields, ref, errors, setErrors, mode, onNoteAdded, 
       }));
     }
   };
-
+  function maxLength(str, max) {
+    return str.length > max;
+  }
   const validateForm = () => {
     const newErrors = {};
 
     if (!formData.title.trim()) {
       newErrors.title = "Title is required";
     }
+
     if (!formData.content.trim()) {
       newErrors.content = "Content is required";
     }
     if (!formData.category.trim()) {
       newErrors.category = "Category is required";
+    }
+    if (maxLength(formData.title, 10)) {
+      newErrors.title = "Title cannot exceed 100 characters";
+    }
+    if (maxLength(formData.content, 150)) {
+      newErrors.content = "content cannot exceed 150 characters";
+    }
+    if (maxLength(formData.category, 50)) {
+      newErrors.category = "category cannot exceed 50 characters";
     }
 
     setErrors(newErrors);
@@ -198,15 +218,13 @@ export const NotesInput = ({ fields, ref, errors, setErrors, mode, onNoteAdded, 
       {/* Date */}
       <div className="form-control">
         <label className="label">
-          <span className="label-text font-semibold">Date</span>
+          <span className="label-text font-semibold">Last Updated-</span>
         </label>
-        <input
-          type="date"
-          name="date"
-          value={formData.date}
-          onChange={handleInputChange}
-          className="input input-bordered w-full"
-        />
+        {new Date(formData.date).toLocaleDateString("en-IN", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        })}
       </div>
 
       {/* Error Alert */}

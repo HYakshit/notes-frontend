@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import profileImg from "../assets/profile.png";
-import { useAuth } from "../hooks/AuthContext";
-import { LogoutBtn } from "./common/LogoutBtn";
+import profileImg from "../../assets/profile.png";
+import { useAuth } from "../../hooks/AuthContext";
+import { LogoutBtn } from "./LogoutBtn";
 
 export const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
