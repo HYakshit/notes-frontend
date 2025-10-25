@@ -23,7 +23,7 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <div className="navbar navbar-bg shadow-sm px-4">
+    <div className="navbar text-black  navbar-bg shadow-sm px-4">
       {/* Mobile Navbar */}
       <div className="navbar-start  flex items-center gap-4">
         <div className="dropdown lg:hidden">
@@ -117,13 +117,16 @@ export const Navbar = () => {
             </Link>
             <hr />
 
-            <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+          
               {user && !loading ? (
+                  <div className="px-4 py-2">
                 <LogoutBtn width="full" fontsize="sm" p="1" mt="0"></LogoutBtn>
+                </div>
               ) : (
+                   <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                 <Link to="/">Login</Link>
+                </div>
               )}
-            </div>
           </div>
         )}
       </div>

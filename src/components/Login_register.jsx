@@ -7,7 +7,7 @@ import {
 import { useAuth } from "../hooks/AuthContext";
 
 export const Login_register = ({ isLogin, setIsLogin, onSuccess }) => {
-    const {  setUser } = useAuth();
+  const { setUser } = useAuth();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -56,42 +56,65 @@ export const Login_register = ({ isLogin, setIsLogin, onSuccess }) => {
     return newErrors;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  // Validate inputs
+  const validationErrors = validate();
+  if (Object.keys(validationErrors).length > 0) {
+    setErrors(validationErrors);
+    return;
+  }
+
+  setLoading(true);
+  setErrors({});
+
+  try {
+    let user;
+
+    if (isLogin) {
+      // 🔹 Login user
+      user = await apiLogin({
+        email: formData.email,
+        password: formData.password,
+      });
+    } else {
+      // 🔹 Register user
+      user = await apiRegister({
+        email: formData.email,
+        password: formData.password,
+        displayName: formData.username,
+      });
     }
-    setLoading(true);
-    try {
-      const { email, password, displayName, confirmPassword } = formData;
-      let user = null;
-      if (isLogin) {
-         user = await apiLogin({ email, password });
-      
-        if (!user.email) {
-          setErrors({ ...errors, server: "User not found" });
-          return;
-        }
-      } else {
-        if (password !== confirmPassword) {
-          setErrors("Passwords do not match");
-          return;
-        }
-       user =  await apiRegister({ email, password, displayName });
-      }
-        setUser(user);
-      setLoading(false);
-      onSuccess && onSuccess();
-    } catch (err) {
-      const message = err?.response?.data?.message || err.message || "Error";
-      setErrors(message);
-    } finally {
-      // setSubmitting(false);
-      setLoading(false);
-    }
-  };
+
+    // Reset form fields
+    setFormData({
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
+
+    // Save user in context
+    setUser(user);
+
+    // Callback after success (e.g., redirect)
+    onSuccess && onSuccess();
+
+  } catch (err) {
+    // 🔹 Handle backend or network errors
+    const message =
+      err.response?.data?.message ||
+      err.response?.data?.error ||
+      err.message ||
+      "Something went wrong";
+
+    setErrors({ server: message });
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const handleForgotPassword = async () => {
     if (!formData.email.trim()) {
@@ -183,15 +206,12 @@ export const Login_register = ({ isLogin, setIsLogin, onSuccess }) => {
             </p>
           )}
         </div>
-        
       )}
-       <div>
-          {errors.server && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.server}
-            </p>
-          )}
-       </div>
+      <div>
+        {errors.server && (
+          <p className="text-red-500 text-sm mt-1">{errors.server}</p>
+        )}
+      </div>
       <button
         type="submit"
         disabled={loading}

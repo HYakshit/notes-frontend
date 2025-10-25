@@ -5,7 +5,6 @@ import { fetchNotes } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthContext";
 import { useNotes } from "../../hooks/useNotes";
-import isNotesRoute from "../../utill/checkRoute";
 
 export const LogoutBtn = ({
   width = "full",
@@ -13,7 +12,7 @@ export const LogoutBtn = ({
   p = "3",
   mt = "4",
 }) => {
-  const { setNotes } = useNotes(isNotesRoute);
+  const { setNotes } = useNotes(false);
   const { setUser } = useAuth();
   const navigate = useNavigate();
   const handleLogout = async () => {

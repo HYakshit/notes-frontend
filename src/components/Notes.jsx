@@ -13,11 +13,6 @@ const Notes = ({ notes, loading, setNotes }) => {
     notesApi.fetchNotes().then((data) => setNotes(data));
   }, [user]);
 
-  const handleAddNote = () => {
-    setModalMode("add");
-    setSelectedNote(null);
-    modalRef.current.showModal();
-  };
 
   if (loading) {
     return (
@@ -31,9 +26,9 @@ const Notes = ({ notes, loading, setNotes }) => {
     <>
       {!notes || notes.length === 0 ? (
         <>
-          <AddNote handleClick={handleAddNote} />
+         
           <div className="flex justify-center items-center h-screen">
-            No notes available. Please add some notes.
+            No notes available. {<AddNote justifyDirection="center" />}
           </div>
         </>
       ) : (

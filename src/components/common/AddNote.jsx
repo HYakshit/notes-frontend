@@ -2,11 +2,10 @@ import { useRef, useState } from "react";
 import Modal from "./Modal";
 import * as notesApi from "../../services/api";
 import { useNotes } from "../../hooks/useNotes";
-import isNotesRoute from "../../utill/checkRoute";
 
-export const AddNote = () => {
-    const {  setNotes } = useNotes(isNotesRoute);
-    const [modalMode, setModalMode] = useState("add");
+export const AddNote = ({ justifyDirection="end" }) => {
+  const { setNotes } = useNotes(false);
+  const [modalMode, setModalMode] = useState("add");
   const [selectedNote, setSelectedNote] = useState(null);
   const modalRef = useRef();
   const handleAddNote = () => {
@@ -16,7 +15,7 @@ export const AddNote = () => {
   };
   return (
     <>
-      <div className="flex justify-end bg-gray-100 p-4">
+      <div className={`flex justify-${justifyDirection} bg-gray-100 p-4`}>
         <button className="btn btn-primary" onClick={handleAddNote}>
           Add Note
         </button>

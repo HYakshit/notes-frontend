@@ -12,7 +12,7 @@ export const Home = () => {
       navigate("/notes");
       return;
     }
-    setSuccessMessage("Registered, Open link sent on your email.");
+    setSuccessMessage("Registered! Login to continue");
     setIsLogin(true);
   };
 
