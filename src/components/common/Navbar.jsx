@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import profileImg from "../../assets/profile.png";
 import { useAuth } from "../../hooks/AuthContext";
 import { LogoutBtn } from "./LogoutBtn";
+import { PROJECT_NAME } from "../../utill/constants";
 
 export const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -61,7 +62,7 @@ export const Navbar = () => {
         </div>
 
         <Link to="/notes" className="btn btn-hover btn-ghost text-xl">
-          Notes App
+         {PROJECT_NAME}
         </Link>
       </div>
 

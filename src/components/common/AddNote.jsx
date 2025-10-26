@@ -2,13 +2,20 @@ import { useRef, useState } from "react";
 import Modal from "./Modal";
 import * as notesApi from "../../services/api";
 import { useNotes } from "../../hooks/useNotes";
+import { useNavigate } from "react-router-dom";
 
-export const AddNote = ({ justifyDirection="end" }) => {
+export const AddNote = ({ justifyDirection = "end" }) => {
+  const navigate = useNavigate();
   const { setNotes } = useNotes(false);
+  const [user, setUser] = useState(null);
   const [modalMode, setModalMode] = useState("add");
   const [selectedNote, setSelectedNote] = useState(null);
   const modalRef = useRef();
   const handleAddNote = () => {
+    if (!user) {
+      navigate("/");
+      return;
+    }
     setModalMode("add");
     setSelectedNote(null);
     modalRef.current.showModal();

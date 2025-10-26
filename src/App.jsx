@@ -10,6 +10,7 @@ import { Profile } from "./components/Profile";
 import ResetPassword from "./components/ResetPassword";
 import { AuthProvider } from "./hooks/AuthContext";
 import isNotesRoute from "./utill/checkRoute";
+import Footer from "./components/common/Footer";
 
 function App() {
   const isNotes = isNotesRoute();
@@ -42,6 +43,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/reset-password" element={<ResetPassword />} />
         </Routes>
+        <Footer />
       </div>
     </AuthProvider>
   );
