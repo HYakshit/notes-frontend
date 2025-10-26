@@ -5,9 +5,10 @@ export default function Footer() {
   const location = useLocation();
 
   const links = [
-    { to: "/", label: "Home" },
+   
     { to: "/notes", label: "All Notes" },
     { to: "/pinned", label: "Pinned" },
+     { to: "/", label: "Login/Register" },
   ];
 
   return (

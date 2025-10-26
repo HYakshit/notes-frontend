@@ -11,6 +11,7 @@ import ResetPassword from "./components/ResetPassword";
 import { AuthProvider } from "./hooks/AuthContext";
 import isNotesRoute from "./utill/checkRoute";
 import Footer from "./components/common/Footer";
+import { ErrorBar } from "./components/common/ErrorBar";
 
 function App() {
   const isNotes = isNotesRoute();
@@ -26,6 +27,7 @@ function App() {
     <AuthProvider>
       <div className="bg-gray-100 min-h-screen">
         <Navbar />
+        <ErrorBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route

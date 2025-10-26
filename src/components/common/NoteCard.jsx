@@ -60,8 +60,8 @@ export const NoteCard = ({ notes, setNotes }) => {
   };
 
   return (
-    <>
-      <div className="bg-gray-100 grid items-start gap-4 p-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <div className="h-screen">
+      <div className=" bg-gray-100 grid items-start gap-4 p-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {notes.map((note) => (
           <div
             key={note.id}
@@ -108,7 +108,7 @@ export const NoteCard = ({ notes, setNotes }) => {
                   <PushPinIcon fontSize="small" />
                 )}
               </button>
-              
+
               {/* Delete Button */}
               <button
                 onClick={() => deleteNote(note.id)}
@@ -207,6 +207,6 @@ export const NoteCard = ({ notes, setNotes }) => {
           notesApi.fetchNotes().then((data) => setNotes(data))
         }
       />
-    </>
+    </div>
   );
 };
