@@ -22,7 +22,7 @@ const Notes = ({ notes, loading, setNotes }) => {
         </>
       ) : (
         <>
-          <AddNote />
+          <AddNote setNotes={setNotes} />
           <NoteCard notes={notes} setNotes={setNotes}></NoteCard>
         </>
       )}

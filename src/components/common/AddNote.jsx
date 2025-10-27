@@ -3,15 +3,19 @@ import Modal from "./Modal";
 import * as notesApi from "../../services/api";
 import { useNotes } from "../../hooks/useNotes";
 import { useNavigate } from "react-router-dom";
-import {useAuth} from "../../hooks/AuthContext";
+import { useAuth } from "../../hooks/AuthContext";
 
-export const AddNote = ({ justifyDirection = "end" }) => {
+export const AddNote = ({ justifyDirection = "end", setNotes }) => {
   const navigate = useNavigate();
-  const { setNotes } = useNotes(false);
+  const { setNotes: localSetNotes } = useNotes(false);
   const { user } = useAuth();
   const [modalMode, setModalMode] = useState("add");
   const [selectedNote, setSelectedNote] = useState(null);
   const modalRef = useRef();
+
+  // Use the setNotes from props if provided, otherwise use local one
+  const updateNotes = setNotes || localSetNotes;
+
   const handleAddNote = () => {
     if (!user) {
       navigate("/");
@@ -21,6 +25,15 @@ export const AddNote = ({ justifyDirection = "end" }) => {
     setSelectedNote(null);
     modalRef.current.showModal();
   };
+
+  const handleNoteAdded = async () => {
+    return notesApi.fetchNotes().then((data) => updateNotes(data));
+  };
+
+  const handleNoteUpdated = async () => {
+    return notesApi.fetchNotes().then((data) => updateNotes(data));
+  };
+
   return (
     <>
       <div className={`flex justify-${justifyDirection} bg-gray-100 p-4`}>
@@ -33,10 +46,8 @@ export const AddNote = ({ justifyDirection = "end" }) => {
         fields={selectedNote}
         ref={modalRef}
         mode={modalMode}
-        onNoteAdded={() => notesApi.fetchNotes().then((data) => setNotes(data))}
-        onNoteUpdated={() =>
-          notesApi.fetchNotes().then((data) => setNotes(data))
-        }
+        onNoteAdded={handleNoteAdded}
+        onNoteUpdated={handleNoteUpdated}
       />
     </>
   );
