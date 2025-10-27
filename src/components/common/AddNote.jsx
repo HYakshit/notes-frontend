@@ -3,11 +3,12 @@ import Modal from "./Modal";
 import * as notesApi from "../../services/api";
 import { useNotes } from "../../hooks/useNotes";
 import { useNavigate } from "react-router-dom";
+import {useAuth} from "../../hooks/AuthContext";
 
 export const AddNote = ({ justifyDirection = "end" }) => {
   const navigate = useNavigate();
   const { setNotes } = useNotes(false);
-  const [user, setUser] = useState(null);
+  const { user } = useAuth();
   const [modalMode, setModalMode] = useState("add");
   const [selectedNote, setSelectedNote] = useState(null);
   const modalRef = useRef();
