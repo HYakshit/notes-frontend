@@ -77,8 +77,8 @@ export const NotesInput = ({
     if (!formData.category.trim()) {
       newErrors.category = "Category is required";
     }
-    if (maxLength(formData.title, 10)) {
-      newErrors.title = "Title cannot exceed 100 characters";
+    if (maxLength(formData.title, 25)) {
+      newErrors.title = "Title cannot exceed 25 characters";
     }
     if (maxLength(formData.content, 150)) {
       newErrors.content = "content cannot exceed 150 characters";

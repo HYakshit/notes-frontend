@@ -1,18 +1,7 @@
-import { useRef, useEffect } from "react";
-import * as notesApi from "../services/api";
 import { AddNote } from "./common/AddNote";
-import { useAuth } from "../hooks/AuthContext";
 import { NoteCard } from "./common/NoteCard";
 
 const Notes = ({ notes, loading, setNotes }) => {
-  const { user } = useAuth();
-  const modalRef = useRef();
-
-  useEffect(() => {
-    if (!user?.email) return;
-    notesApi.fetchNotes().then((data) => setNotes(data));
-  }, [user]);
-
 
   if (loading) {
     return (
