@@ -61,7 +61,7 @@ export const NoteCard = ({ notes, setNotes }) => {
   };
 
   return (
-    <div className="sm:h-screen bg-gray-100  dark:bg-gray-600 dark:text-white">
+    <div className=" min-h-screen bg-gray-100  dark:bg-gray-600 dark:text-white">
          <AddNote setNotes={setNotes} />
       <div className="  grid items-start gap-4 p-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {notes.map((note) => (
