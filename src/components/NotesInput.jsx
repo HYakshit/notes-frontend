@@ -23,7 +23,7 @@ export const NotesInput = ({
     date: new Date().toISOString().split("T")[0],
   });
 
-  // Update form data when fields change (for edit mode)
+  // Update form data when fields change 
   useEffect(() => {
     if (fields && mode === "edit") {
       setFormData({

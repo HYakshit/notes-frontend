@@ -244,12 +244,12 @@ export const Login_register = ({ isLogin, setIsLogin, onSuccess }) => {
         {isLogin ? "Login" : "Register"}
       </button>
 
-      <p className="text-center mt-4 text-sm text-black">
+      <p className="text-center mt-4 text-sm ">
         {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
         <button
           type="button"
           onClick={() => setIsLogin(!isLogin)}
-          className="text-black font-medium hover:underline cursor-pointer"
+          className=" font-medium hover:underline cursor-pointer"
         >
           {isLogin ? "Register" : "Login"}
         </button>

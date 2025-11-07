@@ -36,7 +36,7 @@ export const AddNote = ({ justifyDirection = "end", setNotes }) => {
 
   return (
     <>
-      <div className={`flex justify-${justifyDirection} bg-gray-100 p-4`}>
+      <div className={`flex justify-${justifyDirection} p-4`}>
         <button className="btn btn-primary" onClick={handleAddNote}>
           Add Note
         </button>

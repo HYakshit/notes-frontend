@@ -24,7 +24,7 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <div className="navbar text-black  navbar-bg shadow-sm px-4">
+    <div className="navbar bg-amber-200 dark:bg-gray-900 dark:text-white   shadow-sm px-4">
       {/* Mobile Navbar */}
       <div className="navbar-start  flex items-center gap-4">
         <div className="dropdown lg:hidden">
@@ -46,7 +46,7 @@ export const Navbar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content dark:bg-black-100 bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
           >
             <li>
               <Link className="btn-hover" to="/notes">
@@ -61,15 +61,14 @@ export const Navbar = () => {
           </ul>
         </div>
 
-        <Link to="/notes" className="btn btn-hover btn-ghost text-xl">
+        <Link to="/notes" className="btn btn-hover   btn-ghost text-xl">
          {PROJECT_NAME}
         </Link>
       </div>
 
       {/* Desktop Navbar */}
-
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 gap-4">
+        <ul className="menu  dark:bg-black-100 menu-horizontal px-1 gap-4">
           <li>
             <Link to="/notes" className="btn btn-ghost btn-hover text-base">
               All Notes
@@ -82,28 +81,29 @@ export const Navbar = () => {
           </li>
         </ul>
       </div>
+
       {/* profile */}
-      <div className="navbar-end relative text-black" ref={dropdownRef}>
+      <div className="navbar-end relative " ref={dropdownRef}>
         <img
           src={profileImg}
           alt="Profile"
-          className="w-10 h-10 text-black  rounded-full cursor-pointer"
+          className="w-10 h-10 dark:bg-blue-500   rounded-full cursor-pointer"
           onClick={toggleDropdown}
         />
 
         {dropdownOpen && (
-          <div className="absolute right-0 mt-52 w-60 bg-white rounded shadow-lg z-20">
+          <div className="absolute right-0 mt-52 w-60 bg-white dark:bg-gray-600 dark:text-white rounded shadow-lg z-20">
             <div className="flex items-center p-4 gap-3">
               <img
                 src={profileImg}
                 alt="Profile"
-                className="w-10 h-10 rounded-full filter brightness-0"
+                className="w-10 dark:bg-blue-500  h-10 rounded-full filter "
               />
               <div className="text-left">
-                <p className="text-black font-semibold text-sm">
+                <p className=" font-semibold text-sm">
                   {user?.user_metadata?.display_name ?? "Guest"}
                 </p>
-                <p className="text-gray-500 text-xs">
+                <p className=" text-xs">
                   {user?.email ?? "Guest Email"}
                 </p>
               </div>

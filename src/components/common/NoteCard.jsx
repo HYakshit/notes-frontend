@@ -8,6 +8,7 @@ import { useRef, useState } from "react";
 import axios from "axios";
 import * as notesApi from "../../services/api";
 import Modal from "./Modal";
+import { AddNote } from "./AddNote";
 
 export const NoteCard = ({ notes, setNotes }) => {
   const [modalMode, setModalMode] = useState("add");
@@ -60,8 +61,9 @@ export const NoteCard = ({ notes, setNotes }) => {
   };
 
   return (
-    <div className="h-screen">
-      <div className=" bg-gray-100 grid items-start gap-4 p-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <div className="sm:h-screen bg-gray-100  dark:bg-gray-600 dark:text-white">
+         <AddNote setNotes={setNotes} />
+      <div className="  grid items-start gap-4 p-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {notes.map((note) => (
           <div
             key={note.id}
@@ -159,8 +161,8 @@ export const NoteCard = ({ notes, setNotes }) => {
 
       {/* Modal to view full note */}
       {viewModalOpen && noteToView && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-xl w-full max-h-[90vh] overflow-y-auto text-black">
+        <div className="fixed inset-0 flex items-center justify-center dark:bg-gray-600 bg-opacity-50 z-50 p-4">
+          <div className="bg-white  dark:bg-gray-900 dark:text-white p-6 rounded-lg shadow-lg max-w-xl w-full max-h-[90vh] overflow-y-auto ">
             <p>
               <span className="font-semibold">Last Updated</span>{" "}
               {noteToView.date}
