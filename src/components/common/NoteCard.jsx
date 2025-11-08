@@ -137,7 +137,7 @@ export const NoteCard = ({ notes, setNotes }) => {
               </span>
 
               <div className="collapse-content text-sm">
-                <p className="truncate-2-lines h-10">
+                <p className="truncate-2-lines ">
                   <span className="font-semibold text-overline">Details: </span>
                   {note.content}
                 </p>

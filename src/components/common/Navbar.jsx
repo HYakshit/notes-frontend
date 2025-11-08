@@ -49,19 +49,19 @@ export const Navbar = () => {
             className="menu menu-sm dropdown-content dark:bg-gray-600  bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
           >
             <li>
-              <Link className="btn-hover" to="/notes">
+              <Link className="hover:bg-amber-300 border-0 dark:hover:bg-gray-300" to="/notes">
                 All Notes
               </Link>
             </li>
             <li>
-              <Link className="btn-hover" to="/pinned">
+              <Link className="hover:bg-amber-300 border-0 dark:hover:bg-gray-300" to="/pinned">
                 Pinned Notes
               </Link>
             </li>
           </ul>
         </div>
 
-        <Link to="/notes" className="btn btn-hover   btn-ghost text-xl">
+        <Link to="/notes" className="btn hover:bg-amber-300 border-0 dark:hover:bg-gray-300   btn-ghost text-xl">
          {PROJECT_NAME}
         </Link>
       </div>
@@ -70,12 +70,12 @@ export const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu  dark:bg-black-100 menu-horizontal px-1 gap-4">
           <li>
-            <Link to="/notes" className="btn btn-ghost btn-hover text-base">
+            <Link to="/notes" className="btn btn-ghost hover:bg-amber-300 border-0 dark:hover:bg-gray-300 text-base">
               All Notes
             </Link>
           </li>
           <li>
-            <Link to="/pinned" className="btn btn-ghost btn-hover text-base">
+            <Link to="/pinned" className="btn btn-ghost hover:bg-amber-300 border-0 dark:hover:bg-gray-300 text-base">
               Pinned Notes
             </Link>
           </li>
