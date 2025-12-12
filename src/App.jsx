@@ -4,7 +4,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { useNotes } from "./hooks/useNotes";
 import { Navbar } from "./components/common/Navbar";
 import { PinedNotes } from "./components/PinedNotes";
-import { Home } from "./components/Home";
+import { LoginRegister } from "./components/loginRegister";
 import Notes from "./components/Notes";
 import { Profile } from "./components/Profile";
 import ResetPassword from "./components/ResetPassword";
@@ -29,7 +29,7 @@ function App() {
         <Navbar />
         <ErrorBar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<LoginRegister />} />
           <Route
             path="/notes"
             element={

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Login_register } from "./Login_register";
+import { LoginRegisterForm } from "./LoginRegisterForm";
 import { useNavigate } from "react-router-dom";
 
-export const Home = () => {
+export const LoginRegister = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ export const Home = () => {
         )}
 
         {/* Form */}
-        <Login_register
+        <LoginRegisterForm
           isLogin={isLogin}
           setIsLogin={setIsLogin}
           onSuccess={onSuccess}

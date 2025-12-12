@@ -1,5 +1,5 @@
 import { AddNote } from "./common/AddNote";
-import { NoteCard } from "./common/NoteCard";
+import { NotesGrid } from "./common/NotesGrid";
 
 export const PinedNotes = ({ notes, loading, setNotes }) => {
 
@@ -22,7 +22,7 @@ export const PinedNotes = ({ notes, loading, setNotes }) => {
 
   return (
     <>
-      <NoteCard notes={pinnedNotes} setNotes={setNotes}></NoteCard>
+      <NotesGrid notes={pinnedNotes} setNotes={setNotes} isPinned={true}></NotesGrid>
     </>
   );
 };

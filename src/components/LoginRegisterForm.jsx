@@ -5,8 +5,9 @@ import {
   forgotPassword,
 } from "../services/api";
 import { useAuth } from "../hooks/AuthContext";
+import { FcGoogle } from "react-icons/fc";
 
-export const Login_register = ({ isLogin, setIsLogin, onSuccess }) => {
+export const LoginRegisterForm = ({ isLogin, setIsLogin, onSuccess }) => {
   const { setUser } = useAuth();
   const [formData, setFormData] = useState({
     username: "",
@@ -56,64 +57,64 @@ export const Login_register = ({ isLogin, setIsLogin, onSuccess }) => {
     return newErrors;
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  // Validate inputs
-  const validationErrors = validate();
-  if (Object.keys(validationErrors).length > 0) {
-    setErrors(validationErrors);
-    return;
-  }
-
-  setLoading(true);
-  setErrors({});
-
-  try {
-    let user;
-
-    if (isLogin) {
-      // 🔹 Login user
-      user = await apiLogin({
-        email: formData.email,
-        password: formData.password,
-      });
-    } else {
-      // 🔹 Register user
-      user = await apiRegister({
-        email: formData.email,
-        password: formData.password,
-        displayName: formData.username,
-      });
+    // Validate inputs
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
     }
 
-    // Reset form fields
-    setFormData({
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
+    setLoading(true);
+    setErrors({});
 
-    // Save user in context
-    setUser(user);
+    try {
+      let user;
 
-    // Callback after success (e.g., redirect)
-    onSuccess && onSuccess();
+      if (isLogin) {
+        // 🔹 Login user
+        user = await apiLogin({
+          email: formData.email,
+          password: formData.password,
+        });
+      } else {
+        // 🔹 Register user
+        user = await apiRegister({
+          email: formData.email,
+          password: formData.password,
+          displayName: formData.username,
+        });
+      }
 
-  } catch (err) {
-    // 🔹 Handle backend or network errors
-    const message =
-      err.response?.data?.message ||
-      err.response?.data?.error ||
-      err.message ||
-      "Something went wrong";
+      // Reset form fields
+      setFormData({
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
 
-    setErrors({ server: message });
-  } finally {
-    setLoading(false);
-  }
-};
+      // Save user in context
+      setUser(user);
+
+      // Callback after success (e.g., redirect)
+      onSuccess && onSuccess();
+
+    } catch (err) {
+      // 🔹 Handle backend or network errors
+      const message =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        err.message ||
+        "Something went wrong";
+
+      setErrors({ server: message });
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   const handleForgotPassword = async () => {
@@ -133,6 +134,12 @@ export const Login_register = ({ isLogin, setIsLogin, onSuccess }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+
+
+  const handleGoogleLogin = () => {
+    alert("Google Login logic to be implemented");
   };
 
   return (
@@ -215,9 +222,8 @@ export const Login_register = ({ isLogin, setIsLogin, onSuccess }) => {
       <button
         type="submit"
         disabled={loading}
-        className={`w-full bg-black text-white p-3 rounded-lg font-medium shadow-sm flex justify-center items-center ${
-          loading ? "opacity-70 cursor-not-allowed" : ""
-        }`}
+        className={`w-full bg-black text-white p-3 rounded-lg font-medium shadow-sm flex justify-center items-center ${loading ? "opacity-70 cursor-not-allowed" : ""
+          }`}
       >
         {loading && (
           <svg
@@ -242,6 +248,21 @@ export const Login_register = ({ isLogin, setIsLogin, onSuccess }) => {
           </svg>
         )}
         {isLogin ? "Login" : "Register"}
+      </button>
+
+      <div className="relative flex py-2 items-center">
+        <div className="flex-grow border-t border-gray-300"></div>
+        <span className="flex-shrink-0 mx-4 text-gray-400 text-sm">Or</span>
+        <div className="flex-grow border-t border-gray-300"></div>
+      </div>
+
+      <button
+        type="button"
+        onClick={handleGoogleLogin}
+        className="w-full bg-white text-black border border-gray-300 p-3 rounded-lg font-medium shadow-sm flex justify-center items-center hover:bg-gray-50 transition-all"
+      >
+        <FcGoogle className="text-2xl mr-2" />
+        Continue with Google
       </button>
 
       <p className="text-center mt-4 text-sm ">

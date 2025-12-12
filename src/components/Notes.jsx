@@ -1,5 +1,5 @@
 import { AddNote } from "./common/AddNote";
-import { NoteCard } from "./common/NoteCard";
+import { NotesGrid } from "./common/NotesGrid";
 
 const Notes = ({ notes, loading, setNotes }) => {
 
@@ -23,7 +23,7 @@ const Notes = ({ notes, loading, setNotes }) => {
       ) : (
         <>
        
-          <NoteCard notes={notes} setNotes={setNotes}></NoteCard>
+          <NotesGrid notes={notes} setNotes={setNotes}></NotesGrid>
         </>
       )}
     </>
