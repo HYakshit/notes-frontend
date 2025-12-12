@@ -4,7 +4,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { useNotes } from "./hooks/useNotes";
 import { Navbar } from "./components/common/Navbar";
 import { PinedNotes } from "./components/PinedNotes";
-import { LoginRegister } from "./components/loginRegister";
+import { LoginRegister } from "./components/LoginRegister";
 import Notes from "./components/Notes";
 import { Profile } from "./components/Profile";
 import ResetPassword from "./components/ResetPassword";

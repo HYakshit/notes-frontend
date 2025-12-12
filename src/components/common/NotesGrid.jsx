@@ -67,7 +67,7 @@ export const NotesGrid = ({ notes, setNotes, isPinned }) => {
   return (
     <div className=" min-h-screen bg-gray-100  dark:bg-gray-600 dark:text-white">
       <AddNote setNotes={setNotes} />
-      <button className="btn btn-primary"  onClick={handleAllExpand}>Expand All</button>
+      {/* <button className="btn btn-primary"  onClick={handleAllExpand}>Expand All</button> */}
       {/* pinned Notes */}
       {pinnedNotes.length > 0 && (
         <>
