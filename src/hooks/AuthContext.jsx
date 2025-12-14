@@ -27,14 +27,14 @@ export function AuthProvider({ children }) {
       async (event, session) => {
         if (event === "SIGNED_IN" && session) {
           try {
-            await googleLogin(session.access_token );
+            await googleLogin(session.access_token);
             const userData = await me();
             setUser(userData);
           } catch (error) {
             console.error("Session sync failed", error);
           }
         }
-      } 
+      }
     );
     return () => {
       authListener.subscription.unsubscribe();
