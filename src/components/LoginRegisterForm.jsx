@@ -139,24 +139,24 @@ export const LoginRegisterForm = ({ isLogin, setIsLogin, onSuccess }) => {
 
 
 
-  // const handleGoogleLogin = async () => {
-  //   try {
+  const handleGoogleLogin = async () => {
+    try {
    
-  //     setLoading(true);
-  //     const { user, error } = await supabase.auth.signInWithOAuth({
-  //       provider: "google",
-  //       options: {
-  //         redirectTo: window.location.origin,
-  //       },
-  //     });
-  //      if(error){ alert(error.message)}
-  //     //  else  setUser(user); onSuccess && onSuccess();
-  //   } catch (err) {
-  //     alert("Error logging in with Google");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+      setLoading(true);
+      const { user, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: window.location.origin,
+        },
+      });
+       if(error){ alert(error.message)}
+      //  else  setUser(user); onSuccess && onSuccess();
+    } catch (err) {
+      alert("Error logging in with Google");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <form className="space-y-5" onSubmit={handleSubmit}>
