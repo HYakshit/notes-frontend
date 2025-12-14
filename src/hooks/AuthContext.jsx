@@ -1,6 +1,6 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { me, googleLogin } from "../services/api";
+import { me } from "../services/api";
 // import { supabase } from "../services/supabase";
 import { Navigate } from "react-router-dom";
 
