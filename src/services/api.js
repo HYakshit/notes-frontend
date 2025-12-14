@@ -95,3 +95,10 @@ export const health = async (a) => {
   const res = await apiClient.get(`/health/`, {});
   return res.data;
 };
+
+export const googleLogin = async (token) => {
+  console.log(token, "token");
+  const res = await apiClient.post(`/login/google`, { access_token: token });
+  console.log(res.data);
+  return res.data;
+};
