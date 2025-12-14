@@ -4,6 +4,7 @@ import {
   register as apiRegister,
   forgotPassword,
 } from "../services/api";
+import { supabase } from "../services/supabase";
 import { useAuth } from "../hooks/AuthContext";
 import { FcGoogle } from "react-icons/fc";
 
@@ -138,9 +139,24 @@ export const LoginRegisterForm = ({ isLogin, setIsLogin, onSuccess }) => {
 
 
 
-  const handleGoogleLogin = () => {
-    alert("Google Login logic to be implemented");
-  };
+  // const handleGoogleLogin = async () => {
+  //   try {
+   
+  //     setLoading(true);
+  //     const { user, error } = await supabase.auth.signInWithOAuth({
+  //       provider: "google",
+  //       options: {
+  //         redirectTo: window.location.origin,
+  //       },
+  //     });
+  //      if(error){ alert(error.message)}
+  //     //  else  setUser(user); onSuccess && onSuccess();
+  //   } catch (err) {
+  //     alert("Error logging in with Google");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <form className="space-y-5" onSubmit={handleSubmit}>
