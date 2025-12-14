@@ -13,41 +13,30 @@ import isNotesRoute from "./utill/checkRoute";
 import Footer from "./components/common/Footer";
 import { ErrorBar } from "./components/common/ErrorBar";
 
+// function App() {
+//   const isNotes = isNotesRoute();
+//   const { notes, loading, setNotes } = useNotes(isNotes);
+
 function App() {
-  const isNotes = isNotesRoute();
-  const { notes, loading, setNotes } = useNotes(isNotes);
-
-  // useEffect(() => {
-  //   setUnauthorizedHandler(() => {
-  //     navigate("/");
-  //   });
-  // }, [navigate]);
-
   return (
-    <AuthProvider>
-      <div className="bg-gray-100 min-h-screen">
-        <Navbar />
-        <ErrorBar />
-        <Routes>
-          <Route path="/" element={<LoginRegister />} />
-          <Route
-            path="/notes"
-            element={
-              <Notes notes={notes} setNotes={setNotes} loading={loading} />
-            }
-          />
-          <Route
-            path="/pinned"
-            element={
-              <PinedNotes notes={notes} setNotes={setNotes} loading={loading} />
-            }
-          />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-        </Routes>
-        <Footer />
-      </div>
-    </AuthProvider>
+    <div className="bg-gray-100 min-h-screen">
+      <Navbar />
+      <ErrorBar />
+      <Routes>
+        <Route path="/" element={<LoginRegister />} />
+        <Route
+          path="/notes"
+          element={<Notes />}
+        />
+        <Route
+          path="/pinned"
+          element={<PinedNotes />}
+        />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+      </Routes>
+      <Footer />
+    </div>
   );
 }
 

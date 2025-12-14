@@ -1,7 +1,9 @@
 import { AddNote } from "./common/AddNote";
 import { NotesGrid } from "./common/NotesGrid";
+import { useNotes } from "../hooks/useNotes";
 
-export const PinedNotes = ({ notes, loading, setNotes }) => {
+export const PinedNotes = () => {
+  const { notes, loading, setNotes } = useNotes();
 
   if (loading) {
     return (

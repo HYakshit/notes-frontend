@@ -1,7 +1,9 @@
 import { AddNote } from "./common/AddNote";
 import { NotesGrid } from "./common/NotesGrid";
+import { useNotes } from "../hooks/useNotes";
 
-const Notes = ({ notes, loading, setNotes }) => {
+const Notes = () => {
+  const { notes, loading, setNotes } = useNotes();
 
   if (loading) {
     return (
@@ -15,14 +17,14 @@ const Notes = ({ notes, loading, setNotes }) => {
     <>
       {!notes || notes.length === 0 ? (
         <>
-         
+
           <div className="flex justify-center dark:bg-gray-600 dark:text-white items-center h-screen">
             No notes available. {<AddNote justifyDirection="center" />}
           </div>
         </>
       ) : (
         <>
-       
+
           <NotesGrid notes={notes} setNotes={setNotes}></NotesGrid>
         </>
       )}
