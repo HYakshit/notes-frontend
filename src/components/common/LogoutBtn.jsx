@@ -5,6 +5,7 @@ import { fetchNotes } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthContext";
 import { useNotes } from "../../hooks/useNotes";
+import { supabase } from '../../services/supabase';
 
 export const LogoutBtn = ({
   width = "full",
@@ -15,9 +16,15 @@ export const LogoutBtn = ({
   const { setNotes } = useNotes(false);
   const { setUser } = useAuth();
   const navigate = useNavigate();
-  const handleLogout = async () => {
+
+const handleLogout = async () => {
     try {
-      await logout();
+      // 1. Sign out of Supabase (Clears LocalStorage)
+      await supabase.auth.signOut(); 
+      
+      // 2. Call your backend logout (Clears Server Cookie)
+      await logout(); 
+
       setUser(null);
       setNotes([]);
       navigate("/");

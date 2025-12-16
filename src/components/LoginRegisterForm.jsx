@@ -141,7 +141,7 @@ export const LoginRegisterForm = ({ isLogin, setIsLogin, onSuccess }) => {
 
   const handleGoogleLogin = async () => {
     try {
-   
+
       setLoading(true);
       const { user, error } = await supabase.auth.signInWithOAuth({
         provider: "google",
@@ -149,8 +149,8 @@ export const LoginRegisterForm = ({ isLogin, setIsLogin, onSuccess }) => {
           redirectTo: window.location.origin,
         },
       });
-       if(error){ alert(error.message)}
-      //  else  setUser(user); onSuccess && onSuccess();
+      if (error) { alert(error.message) }
+
     } catch (err) {
       alert("Error logging in with Google");
     } finally {

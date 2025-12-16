@@ -2,10 +2,20 @@ import React, { useState } from "react";
 import { LoginRegisterForm } from "./LoginRegisterForm";
 import { useNavigate } from "react-router-dom";
 
+import { useAuth } from "../hooks/AuthContext";
+import { useEffect } from "react";
+
 export const LoginRegister = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/notes");
+    }
+  }, [user, navigate]);
 
   const onSuccess = () => {
     if (isLogin) {
