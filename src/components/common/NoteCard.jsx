@@ -68,7 +68,7 @@ export const NoteCard = ({ note, handleViewNote, handleEditNote, deleteNote, pin
                     }`}
                 onClick={() => handleNoteClick(note.id)}
             >
-                <span className="collapse-title font-semibold ">
+                <span className="collapse-title brand-font font-semibold ">
                     {note.title}
                 </span>
 

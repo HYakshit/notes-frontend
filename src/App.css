@@ -3,9 +3,20 @@
 
 @variant dark (&:where(.dark, .dark *));
 
-@theme {}
+body{
+ font-family: 'Poppins', sans-serif;
+}
+@theme {
+  
+}
 
+@layer components {
+ 
+}
 @layer modal {
+  .brand-font{
+   font-family: 'Kalam', cursive;
+  }
   .modal-box {
     @apply bg-white text-black dark:bg-gray-900 dark:text-white;
   }

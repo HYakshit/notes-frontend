@@ -220,7 +220,7 @@ export const NotesInput = ({
         <label className="label">
           <span className="label-text font-semibold">Last Updated-</span>
         </label>
-        <span className="text-gray-300">
+        <span className="text-gray-400">
         {new Date(formData.date).toLocaleDateString("en-IN", {
           day: "2-digit",
           month: "short",

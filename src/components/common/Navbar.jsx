@@ -43,7 +43,7 @@ export const Navbar = () => {
   };
 
   return (
-    <div className="navbar text-black  bg-amber-200  dark:bg-gray-900 dark:text-white transition-colors duration-300 shadow-sm px-4">
+    <div className="navbar text-black   bg-amber-200  dark:bg-gray-900 dark:text-white transition-colors duration-300 shadow-sm px-4">
       {/* Mobile Navbar */}
       <div className="navbar-start flex items-center gap-4">
         <div className="dropdown lg:hidden">
@@ -80,7 +80,7 @@ export const Navbar = () => {
           </ul>
         </div>
 
-        <Link to="/notes" className="btn hover:bg-amber-300 border-0 dark:hover:bg-gray-500 btn-ghost text-xl">
+        <Link to="/notes" className="btn brand-font hover:bg-amber-300 border-0 dark:hover:bg-gray-500 btn-ghost text-xl">
          {PROJECT_NAME}
         </Link>
       </div>
