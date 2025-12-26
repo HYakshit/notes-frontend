@@ -134,7 +134,7 @@ export const NotesInput = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="md:space-y-3 space-y-2">
       {/* Title */}
       <div className="form-control">
         <label className="label">
@@ -209,7 +209,7 @@ export const NotesInput = ({
           placeholder="Enter tags separated by commas"
         />
         <label className="label">
-          <span className="label-text-alt text-gray-500">
+          <span className="label-text-alt">
             Separate multiple tags with commas
           </span>
         </label>
@@ -220,11 +220,13 @@ export const NotesInput = ({
         <label className="label">
           <span className="label-text font-semibold">Last Updated-</span>
         </label>
+        <span className="text-gray-300">
         {new Date(formData.date).toLocaleDateString("en-IN", {
           day: "2-digit",
           month: "short",
           year: "numeric",
         })}
+        </span>
       </div>
 
       {/* Error Alert */}

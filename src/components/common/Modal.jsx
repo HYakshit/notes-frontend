@@ -12,7 +12,7 @@ const Modal = ({ fields, ref, mode, onNoteAdded, onNoteUpdated }) => {
     <dialog
       ref={ref}
       id="my_modal_5"
-      className="modal modal-bottom sm:modal-middle"
+      className="modal  modal-bottom sm:modal-middle"
     >
       <div className="modal-box w-11/12 max-w-2xl">
         <span className="flex justify-between">
@@ -20,13 +20,6 @@ const Modal = ({ fields, ref, mode, onNoteAdded, onNoteUpdated }) => {
           <h3 className="font-bold text-lg mb-4">
             {mode === "add" ? "Add New Note" : "Edit Note"}
           </h3>
-          <button
-            type="button"
-            onClick={handleClose}
-            className="btn btn-outline btn-error"
-          >
-            Cancel
-          </button>{" "}
         </span>
         {/* form */}
         <NotesInput

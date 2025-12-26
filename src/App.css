@@ -3,7 +3,17 @@
 
 @variant dark (&:where(.dark, .dark *));
 
+@theme {}
 
+@layer modal {
+  .modal-box {
+    @apply bg-white text-black dark:bg-gray-900 dark:text-white;
+  }
+
+  .input , .textarea{
+    @apply bg-white  text-black  dark:bg-gray-700 dark:text-white focus:outline-none border-2 focus:border-yellow-200;
+  }
+}
 
 .truncate-2-lines {
   display: -webkit-box;
