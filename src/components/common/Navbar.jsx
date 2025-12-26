@@ -43,7 +43,7 @@ export const Navbar = () => {
   };
 
   return (
-    <div className="navbar text-black  bg-amber-200 dark:bg-gray-900 dark:text-white transition-colors duration-300 shadow-sm px-4">
+    <div className="navbar text-black  bg-amber-200  dark:bg-gray-900 dark:text-white transition-colors duration-300 shadow-sm px-4">
       {/* Mobile Navbar */}
       <div className="navbar-start flex items-center gap-4">
         <div className="dropdown lg:hidden">
@@ -65,7 +65,7 @@ export const Navbar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content dark:bg-gray-600 bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content bg-white dark:bg-gray-600  rounded-box z-10 mt-3 w-52 p-2 shadow"
           >
             <li>
               <Link className="hover:bg-amber-300 border-0 dark:hover:bg-gray-500" to="/notes">
