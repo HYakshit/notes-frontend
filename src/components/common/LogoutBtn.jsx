@@ -4,7 +4,7 @@ import { logout } from "../../services/api";
 import { fetchNotes } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthContext";
-import { useNotes } from "../../hooks/useNotes";
+import { useNotes } from "../../hooks/NotesContext";
 import { supabase } from '../../services/supabase';
 
 export const LogoutBtn = ({

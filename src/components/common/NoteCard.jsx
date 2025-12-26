@@ -9,14 +9,14 @@ export const NoteCard = ({ note, handleViewNote, handleEditNote, deleteNote, pin
     return (
         <div
             key={note.id}
-            className="bg-white p-2 rounded-lg shadow-md w-full"
+            className="bg-white dark:bg-gray-600 p-2 rounded-lg shadow-md w-full"
         >
             {/* Buttons */}
             <div className="flex justify-end gap-2 mb-1">
                 {/* View Full Button */}
                 <button
                     onClick={() => handleViewNote(note)}
-                    className="btn btn-xs text-black navbar-bg flex items-center justify-center"
+                    className="btn btn-xs text-black bg-amber-200 dark:text-white dark:bg-gray-700  flex items-center justify-center"
                 >
                     {buttonLoading.view === note.id ? (
                         <CircularProgress size={16} color="inherit" />
@@ -28,7 +28,7 @@ export const NoteCard = ({ note, handleViewNote, handleEditNote, deleteNote, pin
                 {/* Edit Button */}
                 <button
                     onClick={() => handleEditNote(note)}
-                    className="btn btn-xs text-black navbar-bg flex items-center justify-center"
+                    className="btn btn-xs text-black bg-amber-200 dark:text-white dark:bg-gray-700 flex items-center justify-center"
                 >
                     {buttonLoading.edit === note.id ? (
                         <CircularProgress size={16} color="inherit" />
@@ -40,11 +40,7 @@ export const NoteCard = ({ note, handleViewNote, handleEditNote, deleteNote, pin
                 {/* Pin Button */}
                 <button
                     onClick={() => pinNote(note.id)}
-                    className="btn btn-xs flex items-center justify-center"
-                    style={{
-                        backgroundColor: note.pinned ? "#feefc3" : "white",
-                        color: "black",
-                    }}
+                    className={`btn btn-xs text-black bg-amber-200 dark:text-white dark:bg-gray-700 flex items-center justify-center ${note.pinned ? "bg-yellow-200" : ""}`}
                 >
                     {buttonLoading.pin === note.id ? (
                         <CircularProgress size={16} color="inherit" />
@@ -56,8 +52,7 @@ export const NoteCard = ({ note, handleViewNote, handleEditNote, deleteNote, pin
                 {/* Delete Button */}
                 <button
                     onClick={() => deleteNote(note.id)}
-                    className="btn btn-xs flex items-center justify-center"
-                    style={{ backgroundColor: "#f28a73ff", color: "white" }}
+                    className="btn btn-xs flex items-center text-white bg-red-400  justify-center"
                 >
                     {buttonLoading.delete === note.id ? (
                         <CircularProgress size={16} color="inherit" />
@@ -69,7 +64,7 @@ export const NoteCard = ({ note, handleViewNote, handleEditNote, deleteNote, pin
 
             {/* Collapse card */}
             <div
-                className={`collapse collapse-arrow bg-base-100 border border-base-300 ${open.includes(note.id) ? "collapse-open" : ""
+                className={`collapse  collapse-arrow bg-base-100 dark:bg-gray-900 dark:text-white border border-base-300 ${open.includes(note.id) ? "collapse-open" : ""
                     }`}
                 onClick={() => handleNoteClick(note.id)}
             >

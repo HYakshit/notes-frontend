@@ -17,7 +17,7 @@ export const Profile = () => {
         <div className="mt-4">
           <p className=" text-sm font-semibold">Username</p>
           <p className=" text-lg font-medium">
-            {user?.user_metadata?.display_name ?? "Guest"}
+            {user?.user_metadata?.name ?? "Guest"}
           </p>
         </div>
         <hr className="my-4" />

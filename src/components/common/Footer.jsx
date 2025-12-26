@@ -30,7 +30,7 @@ export default function Footer() {
         </nav>
 
         {/* Branding / Copyright */}
-        <p className="text-xs text-gray-500 text-center md:text-right">
+        <p className="text-xs text-gray-500 dark:text-gray-300 text-center md:text-right">
           © {new Date().getFullYear() } {PROJECT_NAME} by <a href="https://akshitmahajan.netlify.app/" target="_blank">Akshit</a> & Deeksha.
         </p>
       </div>

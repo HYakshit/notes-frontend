@@ -4,11 +4,16 @@ import profileImg from "../../assets/profile.png";
 import { useAuth } from "../../hooks/AuthContext";
 import { LogoutBtn } from "./LogoutBtn";
 import { PROJECT_NAME } from "../../utill/constants";
+import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
 
 export const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const { user, loading } = useAuth();
+  
+  // Theme state initialization
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
@@ -23,10 +28,24 @@ export const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Dark Mode Effect
+  useEffect(() => {
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
   return (
-    <div className="navbar bg-amber-200 dark:bg-gray-900 dark:text-white   shadow-sm px-4">
+    <div className="navbar bg-amber-200 dark:bg-gray-900 dark:text-white transition-colors duration-300 shadow-sm px-4">
       {/* Mobile Navbar */}
-      <div className="navbar-start  flex items-center gap-4">
+      <div className="navbar-start flex items-center gap-4">
         <div className="dropdown lg:hidden">
           <div tabIndex={0} className="btn btn-ghost">
             <svg
@@ -46,78 +65,93 @@ export const Navbar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content dark:bg-gray-600  bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content dark:bg-gray-600 bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
           >
             <li>
-              <Link className="hover:bg-amber-300 border-0 dark:hover:bg-gray-300" to="/notes">
+              <Link className="hover:bg-amber-300 border-0 dark:hover:bg-gray-500" to="/notes">
                 All Notes
               </Link>
             </li>
             <li>
-              <Link className="hover:bg-amber-300 border-0 dark:hover:bg-gray-300" to="/pinned">
+              <Link className="hover:bg-amber-300 border-0 dark:hover:bg-gray-500" to="/pinned">
                 Pinned Notes
               </Link>
             </li>
           </ul>
         </div>
 
-        <Link to="/notes" className="btn hover:bg-amber-300 border-0 dark:hover:bg-gray-300   btn-ghost text-xl">
+        <Link to="/notes" className="btn hover:bg-amber-300 border-0 dark:hover:bg-gray-500 btn-ghost text-xl">
          {PROJECT_NAME}
         </Link>
       </div>
 
       {/* Desktop Navbar */}
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu  dark:bg-black-100 menu-horizontal px-1 gap-4">
+        <ul className="menu dark:bg-black-100 menu-horizontal px-1 gap-4">
           <li>
-            <Link to="/notes" className="btn btn-ghost hover:bg-amber-300 border-0 dark:hover:bg-gray-300 text-base">
+            <Link to="/notes" className="btn btn-ghost hover:bg-amber-300 border-0 dark:hover:bg-gray-500 text-base">
               All Notes
             </Link>
           </li>
           <li>
-            <Link to="/pinned" className="btn btn-ghost hover:bg-amber-300 border-0 dark:hover:bg-gray-300 text-base">
+            <Link to="/pinned" className="btn btn-ghost hover:bg-amber-300 border-0 dark:hover:bg-gray-500 text-base">
               Pinned Notes
             </Link>
           </li>
         </ul>
       </div>
 
-      {/* profile */}
-      <div className="navbar-end relative " ref={dropdownRef}>
+      {/* Theme Toggle & Profile */}
+      <div className="navbar-end flex items-center gap-4 relative" ref={dropdownRef}>
+        
+        {/* Toggle Button */}
+        <button 
+          onClick={toggleTheme} 
+          className="btn btn-ghost btn-circle hover:bg-amber-300 dark:hover:bg-gray-700 transition-all text-2xl"
+        >
+          {theme === "dark" ? <MdOutlineLightMode /> : <MdOutlineDarkMode />}
+        </button>
+
         <img
-          src={profileImg}
+          src={user?.user_metadata?.picture || profileImg}
           alt="Profile"
-          className="w-10 h-10 dark:bg-blue-500   rounded-full cursor-pointer"
+          className="w-10 h-10 dark:bg-blue-500 rounded-full cursor-pointer object-cover"
           onClick={toggleDropdown}
+          width={40}
+          height={40}
         />
 
         {dropdownOpen && (
-          <div className="absolute right-0 mt-52 w-60 bg-white dark:bg-gray-600 dark:text-white rounded shadow-lg z-20">
+          <div className="absolute right-0 top-16 w-60 bg-white dark:bg-gray-600 dark:text-white rounded shadow-lg z-20">
+              <Link
+              to="/Profile"
+              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-500 cursor-pointer"
+            >
             <div className="flex items-center p-4 gap-3">
               <img
                 src={profileImg}
                 alt="Profile"
-                className="w-10 dark:bg-blue-500  h-10 rounded-full filter "
-              />
+                className="w-10 dark:bg-blue-500 h-10 rounded-full filter object-cover"
+                width={40}
+                height={40}
+            />
+           
               <div className="text-left">
                 <p className=" font-semibold text-sm">
-                  {user?.user_metadata?.display_name ?? "Guest"}
+                  {user?.user_metadata?.name ?? "Guest"}
                 </p>
-                <p className=" text-xs">
+                <p className=" text-xs truncate w-28">
                   {user?.email ?? "Guest Email"}
                 </p>
               </div>
+            
             </div>
-            <hr />
-
-            <Link
-              to="/Profile"
-              className="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
-            >
-              Profile
             </Link>
-            <hr />
+            <hr className="dark:border-gray-500" />
 
+           
+              
+            <hr className="dark:border-gray-500" />
           
               {user && !loading ? (
                   <div className="px-4 py-2">
@@ -134,3 +168,4 @@ export const Navbar = () => {
     </div>
   );
 };
+

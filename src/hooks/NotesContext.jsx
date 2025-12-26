@@ -42,7 +42,7 @@ export function NotesProvider({ children }) {
             // User logged in, let's fetch!
             loadNotes();
         }
-    }, [user]);
+    }, [user?.email]);
 
     return (
         <NotesContext.Provider value={{ notes, setNotes, loading, loadNotes }}>

@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import Modal from "./Modal";
 import * as notesApi from "../../services/api";
-import { useNotes } from "../../hooks/useNotes";
+import { useNotes } from "../../hooks/NotesContext";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthContext";
 

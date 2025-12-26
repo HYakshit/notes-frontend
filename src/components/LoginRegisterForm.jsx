@@ -149,8 +149,6 @@ export const LoginRegisterForm = ({ isLogin, setIsLogin, onSuccess }) => {
           redirectTo: window.location.origin,
         },
       });
-      if (error) { alert(error.message) }
-
     } catch (err) {
       alert("Error logging in with Google");
     } finally {

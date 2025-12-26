@@ -1,34 +1,36 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+@variant dark (&:where(.dark, .dark *));
+
+
+
 .truncate-2-lines {
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* Number of lines to show */
+  -webkit-line-clamp: 2;
+  /* Number of lines to show */
   line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-   white-space: normal;
-}
-
-.navbar-bg {
-  background-color: #feefc3;
+  white-space: normal;
 }
 
 .mybtn {
   color: #232f3e;
 }
- .link-custom::after {
-    content: "";
-    width: 0%;
-    height: 3px;
-    background-color: white;
-    position: absolute;
-    left: 0;
-    top: 102%;
-    transition: all 0.4s;
-  }
 
-  .link-custom:hover::after {
-    width: 100%;
-  }
+.link-custom::after {
+  content: "";
+  width: 0%;
+  height: 3px;
+  background-color: white;
+  position: absolute;
+  left: 0;
+  top: 102%;
+  transition: all 0.4s;
+}
+
+.link-custom:hover::after {
+  width: 100%;
+}
