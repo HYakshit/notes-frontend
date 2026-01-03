@@ -1,9 +1,5 @@
-// Material UI Icons
-import EditIcon from "@mui/icons-material/Edit";
-import PushPinIcon from "@mui/icons-material/PushPin";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import DeleteIcon from "@mui/icons-material/Delete";
-import CircularProgress from "@mui/material/CircularProgress";
+// Icons from react-icons
+import { FaEdit, FaThumbtack, FaEye, FaTrash, FaSpinner } from 'react-icons/fa';
 
 export const NoteCard = ({ note, handleViewNote, handleEditNote, deleteNote, pinNote, buttonLoading, open, handleNoteClick }) => {
     return (
@@ -19,9 +15,9 @@ export const NoteCard = ({ note, handleViewNote, handleEditNote, deleteNote, pin
                     className="btn btn-xs text-black bg-amber-200 dark:text-white dark:bg-gray-700  flex items-center justify-center"
                 >
                     {buttonLoading.view === note.id ? (
-                        <CircularProgress size={16} color="inherit" />
+                        <FaSpinner className="animate-spin" />
                     ) : (
-                        <VisibilityIcon size={16} color="inherit" />
+                        <FaEye className="w-4 h-4" />
                     )}
                 </button>
 
@@ -31,9 +27,9 @@ export const NoteCard = ({ note, handleViewNote, handleEditNote, deleteNote, pin
                     className="btn btn-xs text-black bg-amber-200 dark:text-white dark:bg-gray-700 flex items-center justify-center"
                 >
                     {buttonLoading.edit === note.id ? (
-                        <CircularProgress size={16} color="inherit" />
+                        <FaSpinner className="animate-spin" />
                     ) : (
-                        <EditIcon fontSize="small" />
+                        <FaEdit className="w-4 h-4" />
                     )}
                 </button>
 
@@ -43,9 +39,9 @@ export const NoteCard = ({ note, handleViewNote, handleEditNote, deleteNote, pin
                     className={`btn btn-xs text-black bg-amber-200 dark:text-white dark:bg-gray-700 flex items-center justify-center ${note.pinned ? "bg-yellow-200" : ""}`}
                 >
                     {buttonLoading.pin === note.id ? (
-                        <CircularProgress size={16} color="inherit" />
+                        <FaSpinner className="animate-spin" />
                     ) : (
-                        <PushPinIcon fontSize="small" />
+                        <FaThumbtack className={`w-4 h-4 ${note.pinned ? 'text-blue-500' : ''}`} />
                     )}
                 </button>
 
@@ -55,9 +51,9 @@ export const NoteCard = ({ note, handleViewNote, handleEditNote, deleteNote, pin
                     className="btn btn-xs flex items-center text-white bg-red-400  justify-center"
                 >
                     {buttonLoading.delete === note.id ? (
-                        <CircularProgress size={16} color="inherit" />
+                        <FaSpinner className="animate-spin" />
                     ) : (
-                        <DeleteIcon fontSize="small" />
+                        <FaTrash className="w-4 h-4" />
                     )}
                 </button>
             </div>

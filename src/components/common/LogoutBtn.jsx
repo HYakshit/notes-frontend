@@ -1,5 +1,5 @@
 import React from "react";
-import LogoutIcon from "@mui/icons-material/Logout";
+import { FaSignOutAlt } from "react-icons/fa";
 import { logout } from "../../services/api";
 import { fetchNotes } from "../../services/api";
 import { useNavigate } from "react-router-dom";
@@ -38,7 +38,7 @@ const handleLogout = async () => {
       className={`w-${width} bg-red-500 hover:bg-red-600 text-white p-${p} rounded-lg mt-${mt} font-${fontsize} flex items-center justify-center gap-2 cursor-pointer`}
     >
       Logout
-      <LogoutIcon style={{ color: "white" }} />
+      <FaSignOutAlt className="text-white" />
     </button>
   );
 };
