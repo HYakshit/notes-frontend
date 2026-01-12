@@ -5,7 +5,7 @@ import { useNotes } from "../../hooks/NotesContext";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthContext";
 
-export const AddNote = ({ justifyDirection = "end", setNotes }) => {
+export const AddNote = ({ justifyDirection = "end", setNotes, onAdd }) => {
   const navigate = useNavigate();
   const { setNotes: localSetNotes } = useNotes(false);
   const { user } = useAuth();
@@ -21,6 +21,13 @@ export const AddNote = ({ justifyDirection = "end", setNotes }) => {
       navigate("/");
       return;
     }
+
+    // If parent provided an onAdd handler, use it (prevents duplicate modals)
+    if (onAdd) {
+      onAdd();
+      return;
+    }
+
     setModalMode("add");
     setSelectedNote(null);
     modalRef.current.showModal();
@@ -41,14 +48,16 @@ export const AddNote = ({ justifyDirection = "end", setNotes }) => {
           Add Note
         </button>
       </div>
-      {/* Add/Edit Modal */}
-      <Modal
-        fields={selectedNote}
-        ref={modalRef}
-        mode={modalMode}
-        onNoteAdded={handleNoteAdded}
-        onNoteUpdated={handleNoteUpdated}
-      />
+      {/* Add/Edit Modal (only when parent doesn't handle it) */}
+      {!onAdd && (
+        <Modal
+          fields={selectedNote}
+          ref={modalRef}
+          mode={modalMode}
+          onNoteAdded={handleNoteAdded}
+          onNoteUpdated={handleNoteUpdated}
+        />
+      )}
     </>
   );
 };

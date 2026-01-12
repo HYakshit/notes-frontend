@@ -4,7 +4,7 @@ import * as notesApi from "../services/api";
 
 export const NotesInput = ({
   fields,
-  ref,
+  dialogRef,
   errors,
   setErrors,
   mode,
@@ -12,7 +12,7 @@ export const NotesInput = ({
   onNoteUpdated,
 }) => {
   const handleClose = () => {
-    ref.current.close();
+    dialogRef.current.close();
     setErrors({});
   };
   const [formData, setFormData] = useState({
@@ -23,7 +23,7 @@ export const NotesInput = ({
     date: new Date().toISOString().split("T")[0],
   });
 
-  // Update form data when fields change 
+  // Update form data when fields change
   useEffect(() => {
     if (fields && mode === "edit") {
       setFormData({
@@ -116,7 +116,7 @@ export const NotesInput = ({
       }
 
       // Close modal
-      ref.current.close();
+      dialogRef.current.close();
 
       // Reset form
       setFormData({
@@ -221,11 +221,11 @@ export const NotesInput = ({
           <span className="label-text font-semibold">Last Updated-</span>
         </label>
         <span className="text-gray-400">
-        {new Date(formData.date).toLocaleDateString("en-IN", {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-        })}
+          {new Date(formData.date).toLocaleDateString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          })}
         </span>
       </div>
 
