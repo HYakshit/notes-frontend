@@ -120,7 +120,7 @@ export const LoginRegisterForm = ({ isLogin, setIsLogin, onSuccess }) => {
 
   const handleForgotPassword = async () => {
     if (!formData.email.trim()) {
-      alert("Please enter your email to reset your password.");
+       setErrors({ email: "Please enter your email to reset password" });
       return;
     }
 

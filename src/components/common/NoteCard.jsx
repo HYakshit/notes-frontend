@@ -12,7 +12,7 @@ export const NoteCard = ({ note, handleViewNote, handleEditNote, deleteNote, pin
                 {/* View Full Button */}
                 <button
                     onClick={() => handleViewNote(note)}
-                    className="btn btn-xs text-black bg-amber-200 dark:text-white dark:bg-gray-700  flex items-center justify-center"
+                    className="btn btn-xs text-black bg-amber-200 dark:text-white dark:bg-gray-700 dark:border-gray-900 border flex items-center justify-center"
                 >
                     {buttonLoading.view === note.id ? (
                         <FaSpinner className="animate-spin" />
@@ -24,7 +24,7 @@ export const NoteCard = ({ note, handleViewNote, handleEditNote, deleteNote, pin
                 {/* Edit Button */}
                 <button
                     onClick={() => handleEditNote(note)}
-                    className="btn btn-xs text-black bg-amber-200 dark:text-white dark:bg-gray-700 flex items-center justify-center"
+                    className="btn btn-xs text-black bg-amber-200 dark:text-white dark:bg-gray-700 dark:border-gray-900 border flex items-center justify-center"
                 >
                     {buttonLoading.edit === note.id ? (
                         <FaSpinner className="animate-spin" />
@@ -36,7 +36,7 @@ export const NoteCard = ({ note, handleViewNote, handleEditNote, deleteNote, pin
                 {/* Pin Button */}
                 <button
                     onClick={() => pinNote(note.id)}
-                    className={`btn btn-xs text-black bg-amber-200 dark:text-white dark:bg-gray-700 flex items-center justify-center ${note.pinned ? "bg-yellow-200" : ""}`}
+                    className={`btn btn-xs text-black bg-amber-200 dark:text-white dark:bg-gray-700 dark:border-gray-900 border flex items-center justify-center ${note.pinned ? "bg-yellow-200" : ""}`}
                 >
                     {buttonLoading.pin === note.id ? (
                         <FaSpinner className="animate-spin" />
@@ -48,7 +48,7 @@ export const NoteCard = ({ note, handleViewNote, handleEditNote, deleteNote, pin
                 {/* Delete Button */}
                 <button
                     onClick={() => deleteNote(note.id)}
-                    className="btn btn-xs flex items-center text-white bg-red-400  justify-center"
+                    className="btn btn-xs flex items-center text-white bg-red-400  dark:border-gray-900 border justify-center "
                 >
                     {buttonLoading.delete === note.id ? (
                         <FaSpinner className="animate-spin" />
@@ -60,7 +60,7 @@ export const NoteCard = ({ note, handleViewNote, handleEditNote, deleteNote, pin
 
             {/* Collapse card */}
             <div
-                className={`collapse  collapse-arrow bg-base-100 dark:bg-gray-900 dark:text-white border border-base-300 ${open.includes(note.id) ? "collapse-open" : ""
+                className={`collapse  collapse-arrow bg-base-100 dark:bg-gray-900 dark:border-gray-900  dark:text-white border border-base-300 ${open.includes(note.id) ? "collapse-open" : ""
                     }`}
                 onClick={() => handleNoteClick(note.id)}
             >

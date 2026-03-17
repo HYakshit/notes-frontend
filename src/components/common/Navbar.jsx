@@ -107,7 +107,7 @@ export const Navbar = () => {
         {/* Toggle Button */}
         <button 
           onClick={toggleTheme} 
-          className="btn btn-ghost btn-circle hover:bg-amber-300 dark:hover:bg-gray-700 transition-all text-2xl"
+          className="btn btn-ghost btn-circle hover:bg-amber-300 dark:hover:bg-gray-700 dark:text-white transition-all text-2xl border-0"
         >
           {theme === "dark" ? <MdOutlineLightMode /> : <MdOutlineDarkMode />}
         </button>
@@ -154,11 +154,11 @@ export const Navbar = () => {
             <hr className="dark:border-gray-500" />
           
               {user && !loading ? (
-                  <div className="px-4 py-2">
-                <LogoutBtn width="full" fontsize="sm" p="1" mt="0"></LogoutBtn>
+                  <div className="px-4 py-2 ">
+                <LogoutBtn width="full" fontsize="sm" p="2" mt="0"></LogoutBtn>
                 </div>
               ) : (
-                   <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                   <div className="px-4 py-2 hover:bg-gray-100  dark:hover:bg-gray-500 cursor-pointer">
                 <Link to="/">Login</Link>
                 </div>
               )}
