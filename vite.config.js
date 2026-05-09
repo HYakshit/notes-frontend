@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://express-fruit-1gm4.onrender.com",
+        target: "https://notes-backend-c448.onrender.com",
         changeOrigin: true,
         secure: false,
       },
